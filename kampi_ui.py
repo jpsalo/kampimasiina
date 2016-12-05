@@ -28,6 +28,11 @@ def activate_background_questions_page():
                                                                                                   window_h)
     forget_other_pages(background_questions_page_data)
     background_questions_page_data.pack(padx=20, pady=40)
+    background_questions_page.refresh_test_page(root, activate_third_page)
+
+
+def activate_third_page():
+    print('third')
 
 
 # Create main window
