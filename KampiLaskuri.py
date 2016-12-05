@@ -1,5 +1,4 @@
-﻿
-# coding: utf-8
+﻿# coding: utf-8
 
 # In[ ]:
 
@@ -26,7 +25,7 @@ serialLaskuri = 0
 montakoSekuntiaSallitaan = 8
 ser = serial.Serial()
 ser.baudrate = 9600
-ser.port = 'COM1'
+ser.port = '/dev/tty.usbmodem1411'  # NOTE: Change this to COM1
 nollausaika = time.time()
 aikaaEdellisestaNollauksesta = time.time()-nollausaika
 

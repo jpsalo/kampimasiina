@@ -9,8 +9,8 @@
 
 # Creates three "windows" that the user can navigate through using Back and Next - buttons.
 
-import Tkinter as tk
-from Tkinter import LEFT, TOP, BOTTOM, PhotoImage
+import tkinter as tk
+from tkinter import LEFT, TOP, BOTTOM, PhotoImage
 import time
 import serial
 
@@ -44,7 +44,7 @@ serialLaskuri = 0
 montakoSekuntiaSallitaan = 8
 ser = serial.Serial()
 ser.baudrate = 9600
-ser.port = 'COM4'
+ser.port = '/dev/tty.usbmodem1411'  # NOTE: Change this to COM1
 nollausaika = time.time()
 aikaaEdellisestaNollauksesta = time.time()-nollausaika
 arvosana1 = 0
