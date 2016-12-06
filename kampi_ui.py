@@ -6,6 +6,8 @@ import landing
 import background_questions
 import instructions
 import experiment
+import questionnaire
+import thank_you
 
 
 def get_experiment_type():
@@ -63,15 +65,31 @@ def activate_experiment(experiment_type):
     experiment_data = experiment.generate_page(root,
                                                window_w,
                                                window_h,
+                                               activate_questionnaire,
                                                experiment_type)
     forget_other_pages(experiment_data)
     experiment_data.pack(padx=20, pady=40)
-    experiment.refresh_page(root, activate_third_page)
+    experiment.refresh_page(root, activate_questionnaire)
     pages.append(experiment_data)
 
 
-def activate_third_page():
-    print('third')
+def activate_questionnaire():
+    questionnaire_data = questionnaire.generate_page(root,
+                                                     window_w,
+                                                     window_h,
+                                                     activate_thank_you)
+    forget_other_pages(questionnaire_data)
+    questionnaire_data.pack(padx=20, pady=40)
+    pages.append(questionnaire_data)
+
+
+def activate_thank_you():
+    thank_you_data = thank_you.generate_page(root,
+                                             window_w,
+                                             window_h)
+    forget_other_pages(thank_you_data)
+    thank_you_data.pack(padx=20, pady=40)
+    pages.append(thank_you_data)
 
 
 # Create main window

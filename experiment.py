@@ -9,7 +9,7 @@ timer_reset_time = time.time()
 time_elapsed = time.time()-timer_reset_time
 
 
-def generate_page(root, window_w, window_h, experiment_type):
+def generate_page(root, window_w, window_h, activate_next_page, experiment_type):
     global page_initialized_time
 
     global page_teksti_progress
@@ -57,6 +57,11 @@ def generate_page(root, window_w, window_h, experiment_type):
                             fg=config.text_color,
                             font=config.big_font)
     page_teksti4.pack(side=tk.TOP)
+
+    next_page_button = tk.Button(page,
+                                 text="Haluan osallistua tutkimukseen",
+                                 command=activate_next_page)
+    next_page_button.pack()
 
     page_initialized_time = time.time()
     return page
