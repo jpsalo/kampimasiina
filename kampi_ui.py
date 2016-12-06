@@ -1,8 +1,8 @@
 ﻿import tkinter as tk
 
 import config
-import initial_page
-import background_questions_page
+import landing
+import experiment
 
 pages = []
 
@@ -13,22 +13,23 @@ def forget_other_pages(current_page):
             page.pack_forget()
 
 
-def activate_initial_page():
-    initial_page_data = initial_page.generate_initial_page(root, window_w,
-                                                           window_h,
-                                                           activate_background_questions_page)
-    initial_page_data.pack(padx=20, pady=40)
-    pages.append(initial_page_data)
+def activate_landing():
+    landing_data = landing.generate_page(root,
+                                         window_w,
+                                         window_h,
+                                         activate_experiment)
+    landing_data.pack(padx=20, pady=40)
+    pages.append(landing_data)
 
 
-def activate_background_questions_page():
+def activate_experiment():
     # Hide the rest and show the second page
-    background_questions_page_data = background_questions_page.generate_background_questions_page(root,
-                                                                                                  window_w,
-                                                                                                  window_h)
-    forget_other_pages(background_questions_page_data)
-    background_questions_page_data.pack(padx=20, pady=40)
-    background_questions_page.refresh_test_page(root, activate_third_page)
+    experiment_data = experiment.generate_page(root,
+                                               window_w,
+                                               window_h)
+    forget_other_pages(experiment_data)
+    experiment_data.pack(padx=20, pady=40)
+    experiment.refresh_page(root, activate_third_page)
 
 
 def activate_third_page():
@@ -49,7 +50,7 @@ root.configure(background=config.background_color)
 
 # Create pages
 
-activate_initial_page()
+activate_landing()
 
 # Start tkinter event - loop
 root.mainloop()
