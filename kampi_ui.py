@@ -9,6 +9,8 @@ import experiment
 import questionnaire
 import thank_you
 
+pages = []
+
 
 def get_experiment_type():
     random_experiment = randint(-1, 1)
@@ -20,9 +22,6 @@ def get_experiment_type():
         return 'positive'
 
 
-pages = []
-
-
 def forget_other_pages(current_page):
     for page in pages:
         if current_page != page:
@@ -30,10 +29,7 @@ def forget_other_pages(current_page):
 
 
 def activate_landing():
-    landing_data = landing.generate_page(root,
-                                         window_w,
-                                         window_h,
-                                         activate_background_questions)
+    landing_data = landing.generate_page(root, activate_background_questions)
     landing_data.pack(padx=20, pady=40)
     pages.append(landing_data)
 
@@ -95,14 +91,13 @@ def activate_thank_you():
 # Create main window
 root = tk.Tk()
 
-
 # Full screen
 window_w = root.winfo_screenwidth()
 window_h = root.winfo_screenheight()
 root.overrideredirect(1)
 root.geometry("%dx%d+0+0" % (window_w, window_h))
-root.configure(background=config.background_color)
 
+root.configure(background=config.background_color)
 
 activate_landing()
 
