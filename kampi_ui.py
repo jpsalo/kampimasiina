@@ -35,10 +35,7 @@ def activate_landing():
 
 
 def activate_background_questions():
-    background_questions_data = background_questions.generate_page(root,
-                                                                   window_w,
-                                                                   window_h,
-                                                                   activate_instructions)
+    background_questions_data = background_questions.generate_page(root, activate_instructions)
     forget_other_pages(background_questions_data)
     background_questions_data.pack(padx=20, pady=40)
     pages.append(background_questions_data)
@@ -46,23 +43,14 @@ def activate_background_questions():
 
 def activate_instructions():
     experiment_type = get_experiment_type()
-    instructions_data = instructions.generate_page(root,
-                                                   window_w,
-                                                   window_h,
-                                                   activate_experiment,
-                                                   experiment_type)
+    instructions_data = instructions.generate_page(root, activate_experiment, experiment_type)
     forget_other_pages(instructions_data)
     instructions_data.pack(padx=20, pady=40)
     pages.append(instructions_data)
 
 
 def activate_experiment(experiment_type):
-    # Hide the rest and show the second page
-    experiment_data = experiment.generate_page(root,
-                                               window_w,
-                                               window_h,
-                                               activate_questionnaire,
-                                               experiment_type)
+    experiment_data = experiment.generate_page(root, activate_questionnaire, experiment_type)
     forget_other_pages(experiment_data)
     experiment_data.pack(padx=20, pady=40)
     experiment.refresh_page(root, activate_questionnaire)
@@ -70,19 +58,14 @@ def activate_experiment(experiment_type):
 
 
 def activate_questionnaire():
-    questionnaire_data = questionnaire.generate_page(root,
-                                                     window_w,
-                                                     window_h,
-                                                     activate_thank_you)
+    questionnaire_data = questionnaire.generate_page(root, activate_thank_you)
     forget_other_pages(questionnaire_data)
     questionnaire_data.pack(padx=20, pady=40)
     pages.append(questionnaire_data)
 
 
 def activate_thank_you():
-    thank_you_data = thank_you.generate_page(root,
-                                             window_w,
-                                             window_h)
+    thank_you_data = thank_you.generate_page(root)
     forget_other_pages(thank_you_data)
     thank_you_data.pack(padx=20, pady=40)
     pages.append(thank_you_data)
@@ -95,7 +78,7 @@ root = tk.Tk()
 window_w = root.winfo_screenwidth()
 window_h = root.winfo_screenheight()
 root.overrideredirect(1)
-root.geometry("%dx%d+0+0" % (window_w, window_h))
+root.geometry('%dx%d+0+0' % (window_w, window_h))
 
 root.configure(background=config.background_color)
 
