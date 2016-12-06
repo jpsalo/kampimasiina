@@ -9,7 +9,7 @@ timer_reset_time = time.time()
 time_elapsed = time.time()-timer_reset_time
 
 
-def generate_page(root, window_w, window_h):
+def generate_page(root, window_w, window_h, experiment_type):
     global page_initialized_time
 
     global page_teksti_progress
@@ -24,11 +24,20 @@ def generate_page(root, window_w, window_h):
                                     fg=config.text_color,
                                     font=config.big_font)
     page_teksti_progress.pack(side=tk.TOP)
+
+    if experiment_type == 'negative':
+        text = 'Negative'
+    elif experiment_type == 'neutral':
+        text = 'Neutral'
+    elif experiment_type == 'positive':
+        text = 'Positive'
+
     page_teksti1 = tk.Label(page,
-                            text='title',
+                            text=text,
                             bg=config.background_color,
                             fg=config.text_color,
                             font=config.big_font)
+
     page_teksti1.pack(side=tk.TOP)
     page_teksti2 = tk.Label(page,
                             text="",
