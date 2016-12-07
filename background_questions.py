@@ -1,32 +1,14 @@
-import tkinter as tk
-
-import config
+import page
 
 
-def generate_page(root, activate_next_page):
-    page = tk.Frame(root)
-    page.configure(background=config.background_color)
+def generate_page(root, width, activate_next_page):
+    frame = page.generate_frame(root)
 
-    title = tk.Label(page,
-                     text='Taustakysymykset',
-                     bg=config.background_color,
-                     fg=config.text_color,
-                     font=config.big_font)
-    title.pack(side=tk.TOP)
+    page.generate_title(frame, 'Taustakysymykset')
 
     content_text = 'Ennen kokeen alkamista tarvitsemme muutaman tiedon taustastasi:'
-    content = tk.Label(page,
-                       text=content_text,
-                       bg=config.background_color,
-                       fg=config.text_color,
-                       font=config.small_font,
-                       wraplength=400,
-                       justify='center')
-    content.pack(side=tk.TOP)
+    page.generate_content(frame, width, content_text)
 
-    next_page_button = tk.Button(page,
-                                 text='Jatka',
-                                 command=activate_next_page)
-    next_page_button.pack()
+    page.generate_button(frame, 'Jatka', activate_next_page)
 
-    return page
+    return frame

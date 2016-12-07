@@ -1,5 +1,6 @@
 import time
 import tkinter as tk
+import page
 
 import config
 import KampiLaskuri
@@ -9,23 +10,17 @@ timer_reset_time = time.time()
 time_elapsed = time.time()-timer_reset_time
 
 
-def generate_page(root, activate_next_page, experiment_type):
-    global page_initialized_time
+def generate_page(root, width, activate_next_page, experiment_type):
+    global frame_initialized_time
 
     global progress
     global earnings_counter
 
-    page = tk.Frame(root)
-    page.configure(background=config.background_color)
+    frame = page.generate_frame(root)
 
-    title = tk.Label(page,
-                     text='Pyöritä kampea niin kauan kuin haluat',
-                     bg=config.background_color,
-                     fg=config.text_color,
-                     font=config.big_font)
-    title.pack(side=tk.TOP)
+    page.generate_title(frame, 'Pyöritä kampea niin kauan kuin haluat')
 
-    progress = tk.Label(page,
+    progress = tk.Label(frame,
                         text='●●●●●●●',
                         bg=config.background_color,
                         fg=config.text_color,
@@ -35,16 +30,9 @@ def generate_page(root, activate_next_page, experiment_type):
     content_text = ('HUOM: Pyöritysnopeudella ei ole väliä.'
                     'Nopea pyöritys ei [UNDERLINE] tuota enemmän rahaa.')
 
-    content = tk.Label(page,
-                       text=content_text,
-                       bg=config.background_color,
-                       fg=config.text_color,
-                       font=config.small_font,
-                       wraplength=400,
-                       justify='center')
-    content.pack(side=tk.TOP)
+    page.generate_content(frame, width, content_text)
 
-    earnings_counter = tk.Label(page,
+    earnings_counter = tk.Label(frame,
                                 text='',
                                 bg=config.background_color,
                                 fg=config.text_color,
@@ -57,7 +45,7 @@ def generate_page(root, activate_next_page, experiment_type):
         elif experiment_type == 'positive':
             text = 'Positive'
 
-        emotion_measure_counter = tk.Label(page,
+        emotion_measure_counter = tk.Label(frame,
                                            text=text,
                                            bg=config.background_color,
                                            fg=config.text_color,
@@ -65,13 +53,10 @@ def generate_page(root, activate_next_page, experiment_type):
 
         emotion_measure_counter.pack(side=tk.TOP)
 
-    next_page_button = tk.Button(page,
-                                 text='Kun olet pyörittänyt tarpeeksi,\npaina tästä',
-                                 command=activate_next_page)
-    next_page_button.pack()
+    page.generate_button(frame, 'Kun olet pyörittänyt tarpeeksi,\npaina tästä', activate_next_page)
 
-    page_initialized_time = time.time()
-    return page
+    frame_initialized_time = time.time()
+    return frame
 
 
 def update_text(text):
@@ -85,13 +70,13 @@ def refresh_progress():
                        '○'*int(time_elapsed))
 
 
-def refresh_page(root, activate_next_page):
+def refresh_page(root, activate_next_frame):
     global time_elapsed
     global timer_reset_time
     global earned
 
     now_time = time.time()
-    earned = (now_time - page_initialized_time) * config.euros_per_hour/3600
+    earned = (now_time - frame_initialized_time) * config.euros_per_hour/3600
     earned_teksti = '{0:.2f}'.format(earned) + ' €'
     update_text(earned_teksti)
 
@@ -104,7 +89,7 @@ def refresh_page(root, activate_next_page):
             timer_reset_time = time.time()
         root.tokansivunPaivitysTehtava = root.after(100, refresh_page,
                                                     root,
-                                                    activate_next_page)
+                                                    activate_next_frame)
     else:
         root.after_cancel(root.tokansivunPaivitysTehtava)
-        activate_next_page()
+        activate_next_frame()

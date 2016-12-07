@@ -40,7 +40,7 @@ def activate_landing():
 
 
 def activate_background_questions():
-    background_questions_data = background_questions.generate_page(root, activate_instructions)
+    background_questions_data = background_questions.generate_page(root, window_w, activate_instructions)
     activate_page(background_questions_data)
 
 
@@ -51,7 +51,7 @@ def activate_instructions():
 
 
 def activate_experiment(experiment_type):
-    experiment_data = experiment.generate_page(root, activate_questionnaire, experiment_type)
+    experiment_data = experiment.generate_page(root, window_w, activate_questionnaire, experiment_type)
     activate_page(experiment_data)
     experiment.refresh_page(root, activate_questionnaire)
 
@@ -62,7 +62,7 @@ def activate_questionnaire():
 
 
 def activate_thank_you():
-    thank_you_data = thank_you.generate_page(root)
+    thank_you_data = thank_you.generate_page(root, window_w)
     activate_page(thank_you_data)
 
 

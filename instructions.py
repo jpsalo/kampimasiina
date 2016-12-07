@@ -1,6 +1,4 @@
-import tkinter as tk
-
-import config
+import page
 
 
 def get_experiment_text(experiment_type):
@@ -27,17 +25,10 @@ def get_experiment_text(experiment_type):
     return text
 
 
-def generate_page(root, width, activate_next_page, experiment_type):
-    page = tk.Frame(root)
-    page.configure(background=config.background_color)
+def generate_page(root, width, activate_next_frame, experiment_type):
+    frame = page.generate_frame(root)
 
-    title = tk.Label(page,
-                     text='Ohjeet',
-                     bg=config.background_color,
-                     fg=config.text_color,
-                     font=config.big_font)
-
-    title.pack(side=tk.TOP, fill=tk.BOTH, expand=tk.YES)
+    page.generate_title(frame, 'Ohjeet')
 
     content_text = ('Tehtävänäsi on pyörittää kahvaa.\n\n'
                     'Voit pyörittää kahvaa niin kauan kuin haluat (maksimissaan 15 minuuttia) '
@@ -47,17 +38,8 @@ def generate_page(root, width, activate_next_page, experiment_type):
 
     content_text += get_experiment_text(experiment_type)
 
-    content = tk.Label(page,
-                       text=content_text,
-                       bg=config.background_color,
-                       fg=config.text_color,
-                       font=config.small_font,
-                       wraplength=width-200)
-    content.pack(side=tk.TOP, fill=tk.BOTH, expand=tk.YES)
+    page.generate_content(frame, width, content_text)
 
-    next_page_button = tk.Button(page,
-                                 text='Aloita koe',
-                                 command=lambda: activate_next_page(experiment_type))
-    next_page_button.pack(side=tk.TOP, fill=tk.Y, expand=tk.YES)
+    page.generate_button(frame, 'Aloita koe', lambda: activate_next_frame(experiment_type))
 
-    return page
+    return frame
