@@ -28,47 +28,42 @@ def forget_other_pages(current_page):
             page.pack_forget()
 
 
+def activate_page(page):
+    forget_other_pages(page)
+    page.pack(fill=tk.BOTH, expand=tk.YES)
+    pages.append(page)
+
+
 def activate_landing():
     landing_data = landing.generate_page(root, window_w, activate_background_questions)
-    landing_data.pack(fill=tk.BOTH, expand=tk.YES)
-    pages.append(landing_data)
+    activate_page(landing_data)
 
 
 def activate_background_questions():
     background_questions_data = background_questions.generate_page(root, activate_instructions)
-    forget_other_pages(background_questions_data)
-    background_questions_data.pack(padx=20, pady=40)
-    pages.append(background_questions_data)
+    activate_page(background_questions_data)
 
 
 def activate_instructions():
     experiment_type = get_experiment_type()
-    instructions_data = instructions.generate_page(root, activate_experiment, experiment_type)
-    forget_other_pages(instructions_data)
-    instructions_data.pack(padx=20, pady=40)
-    pages.append(instructions_data)
+    instructions_data = instructions.generate_page(root, window_w, activate_experiment, experiment_type)
+    activate_page(instructions_data)
 
 
 def activate_experiment(experiment_type):
     experiment_data = experiment.generate_page(root, activate_questionnaire, experiment_type)
-    forget_other_pages(experiment_data)
-    experiment_data.pack(padx=20, pady=40)
+    activate_page(experiment_data)
     experiment.refresh_page(root, activate_questionnaire)
-    pages.append(experiment_data)
 
 
 def activate_questionnaire():
     questionnaire_data = questionnaire.generate_page(root, activate_thank_you)
-    forget_other_pages(questionnaire_data)
-    questionnaire_data.pack(padx=20, pady=40)
-    pages.append(questionnaire_data)
+    activate_page(questionnaire_data)
 
 
 def activate_thank_you():
     thank_you_data = thank_you.generate_page(root)
-    forget_other_pages(thank_you_data)
-    thank_you_data.pack(padx=20, pady=40)
-    pages.append(thank_you_data)
+    activate_page(thank_you_data)
 
 
 # Create main window

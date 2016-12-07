@@ -27,7 +27,7 @@ def get_experiment_text(experiment_type):
     return text
 
 
-def generate_page(root, activate_next_page, experiment_type):
+def generate_page(root, width, activate_next_page, experiment_type):
     page = tk.Frame(root)
     page.configure(background=config.background_color)
 
@@ -37,7 +37,7 @@ def generate_page(root, activate_next_page, experiment_type):
                      fg=config.text_color,
                      font=config.big_font)
 
-    title.pack(side=tk.TOP)
+    title.pack(side=tk.TOP, fill=tk.BOTH, expand=tk.YES)
 
     content_text = ('Tehtävänäsi on pyörittää kahvaa.\n\n'
                     'Voit pyörittää kahvaa niin kauan kuin haluat (maksimissaan 15 minuuttia) '
@@ -52,13 +52,12 @@ def generate_page(root, activate_next_page, experiment_type):
                        bg=config.background_color,
                        fg=config.text_color,
                        font=config.small_font,
-                       wraplength=400,
-                       justify='center')
-    content.pack(side=tk.TOP)
+                       wraplength=width-200)
+    content.pack(side=tk.TOP, fill=tk.BOTH, expand=tk.YES)
 
     next_page_button = tk.Button(page,
                                  text='Aloita koe',
                                  command=lambda: activate_next_page(experiment_type))
-    next_page_button.pack()
+    next_page_button.pack(side=tk.TOP, fill=tk.Y, expand=tk.YES)
 
     return page
