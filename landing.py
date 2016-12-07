@@ -3,7 +3,7 @@ import tkinter as tk
 import config
 
 
-def generate_page(root, activate_next_page):
+def generate_page(root, width, activate_next_page):
     page = tk.Frame(root)
     page.configure(background=config.background_color)
 
@@ -12,7 +12,7 @@ def generate_page(root, activate_next_page):
                      bg=config.background_color,
                      fg=config.text_color,
                      font=config.big_font)
-    title.pack(side=tk.TOP)
+    title.pack(side=tk.TOP, fill=tk.BOTH, expand=tk.YES)
 
     content_text = ('Tämä koe pyrkii selvittämään ihmisen motivaatiota ja hyvinvointia erilaisten työtehtävien aikana. '
                     'Tehtävässä sinulle maksetaan pieni summa rahaa kahvan pyörittämisestä: 1 sentti joka 4. sekunti, '
@@ -46,13 +46,13 @@ def generate_page(root, activate_next_page):
                        bg=config.background_color,
                        fg=config.text_color,
                        font=config.small_font,
-                       wraplength=400,
-                       justify='center')
-    content.pack(side=tk.TOP)
+                       wraplength=width-200)
+    content.pack(side=tk.TOP, fill=tk.BOTH, expand=1)
 
     next_page_button = tk.Button(page,
                                  text='Haluan osallistua tutkimukseen',
+                                 font=config.button_font,
                                  command=activate_next_page)
-    next_page_button.pack()
+    next_page_button.pack(side=tk.TOP, fill=tk.Y, expand=1)
 
     return page

@@ -29,8 +29,8 @@ def forget_other_pages(current_page):
 
 
 def activate_landing():
-    landing_data = landing.generate_page(root, activate_background_questions)
-    landing_data.pack(padx=20, pady=40)
+    landing_data = landing.generate_page(root, window_w, activate_background_questions)
+    landing_data.pack(fill=tk.BOTH, expand=tk.YES)
     pages.append(landing_data)
 
 
@@ -77,7 +77,7 @@ root = tk.Tk()
 # Full screen
 window_w = root.winfo_screenwidth()
 window_h = root.winfo_screenheight()
-root.overrideredirect(1)
+root.overrideredirect(True)
 root.geometry('%dx%d+0+0' % (window_w, window_h))
 
 root.configure(background=config.background_color)
