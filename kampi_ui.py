@@ -12,6 +12,10 @@ import thank_you
 pages = []
 
 
+def append_data(*args):
+    print(args)
+
+
 def get_experiment_type():
     random_experiment = randint(-1, 1)
     if random_experiment == -1:
@@ -40,7 +44,10 @@ def activate_landing():
 
 
 def activate_background_questions():
-    background_questions_data = background_questions.generate_page(root, window_w, activate_instructions)
+    background_questions_data = background_questions.generate_page(root,
+                                                                   window_w,
+                                                                   activate_instructions,
+                                                                   append_data)
     activate_page(background_questions_data)
 
 
@@ -72,8 +79,7 @@ root = tk.Tk()
 # Full screen
 window_w = root.winfo_screenwidth()
 window_h = root.winfo_screenheight()
-root.overrideredirect(True)
-root.geometry('%dx%d+0+0' % (window_w, window_h))
+root.attributes("-fullscreen", True)
 
 root.configure(background=config.background_color)
 
