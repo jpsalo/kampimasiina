@@ -6,13 +6,7 @@ import config
 import crank
 
 
-timer_reset_time = time.time()
-time_elapsed = time.time()-timer_reset_time
-
-
 def generate_page(root, width, activate_next_page, experiment_type):
-    global frame_initialized_time
-
     global progress
     global earnings_counter
 
@@ -55,7 +49,6 @@ def generate_page(root, width, activate_next_page, experiment_type):
 
     page.generate_button(frame, 'Kun olet pyörittänyt tarpeeksi,\npaina tästä', activate_next_page)
 
-    frame_initialized_time = time.time()
     return frame
 
 
@@ -64,32 +57,60 @@ def update_text(text):
     earnings_counter.pack()
 
 
-def refresh_progress():
-    progress.configure(text='●' *
-                       int(config.progress_indicator_time_limit-time_elapsed) +
-                       '○'*int(time_elapsed))
+def refresh_progress(result, time_elapsed, progress_data):
+    time_elapsed = int(time.time() - progress_data['time_since_last_progress'])
+    time_elapsed = min(int(config.progress_indicator_time_limit / 1000), time_elapsed)
+    time_remaining = int(config.progress_indicator_time_limit / 1000 - time_elapsed)
+
+    if progress_data['progress_in_progress']:
+        if time_remaining:
+            progress_data['time_elapsed'] = (progress_data['total_time'] + time.time() -
+                                             progress_data['initialized_time'])
+        else:
+            progress_data['progress_in_progress'] = False
+            progress_data['total_time'] += time.time() - progress_data['initialized_time']
+
+    if result:
+        progress_data['time_since_last_progress'] = time.time()
+        progress.configure(text='●●●●●●●')
+        if not progress_data['progress_in_progress']:
+            progress_data['progress_in_progress'] = True
+            progress_data['initialized_time'] = time.time()
+    else:
+        progress.configure(text='●' * time_remaining + '○' * time_elapsed)
+
+    return progress_data
 
 
-def refresh_page(root, activate_next_frame):
-    global time_elapsed
-    global timer_reset_time
-    global earned
+def update_earnings(time_elapsed):
+    update_text(str(int(time_elapsed / 4) / 100) + ' €')
 
-    now_time = time.time()
-    earned = (now_time - frame_initialized_time) * config.euros_per_hour/3600
-    earned_teksti = '{0:.2f}'.format(earned) + ' €'
-    update_text(earned_teksti)
+
+def do_refresh_page(root, activate_next_frame, experiment_initialized_time, progress_data):
+    time_elapsed = time.time() - experiment_initialized_time
 
     if (time_elapsed < config.test_time_limit):
         result = crank.read_serial()
-        if not result:
-            time_elapsed = time.time()-timer_reset_time
-            refresh_progress()
-        else:
-            timer_reset_time = time.time()
-        root.tokansivunPaivitysTehtava = root.after(100, refresh_page,
-                                                    root,
-                                                    activate_next_frame)
+        refresh_progress(result, time_elapsed, progress_data)
+        update_earnings(progress_data['time_elapsed'])
+        root.experiment_refresher = root.after(100,
+                                               do_refresh_page,
+                                               root,
+                                               activate_next_frame,
+                                               experiment_initialized_time,
+                                               progress_data)
     else:
-        root.after_cancel(root.tokansivunPaivitysTehtava)
+        root.after_cancel(root.experiment_refresher)
         activate_next_frame()
+
+
+def refresh_page(root, activate_next_frame, experiment_initialized_time):
+    progress_data = {
+            'time_since_last_progress': time.time(),
+            'time_elapsed': 0,
+            'total_time': 0,
+            'progress_in_progress': True,
+            'initialized_time': time.time()
+            }
+
+    do_refresh_page(root, activate_next_frame, experiment_initialized_time, progress_data)

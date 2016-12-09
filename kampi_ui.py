@@ -1,5 +1,6 @@
 ﻿import tkinter as tk
 from random import randint
+import time
 
 import config
 import landing
@@ -60,7 +61,8 @@ def activate_instructions():
 def activate_experiment(experiment_type):
     experiment_data = experiment.generate_page(root, window_w, activate_questionnaire, experiment_type)
     activate_page(experiment_data)
-    experiment.refresh_page(root, activate_questionnaire)
+    experiment_initialized = time.time()
+    experiment.refresh_page(root, activate_questionnaire, experiment_initialized)
 
 
 def activate_questionnaire():
