@@ -3,7 +3,7 @@ import tkinter as tk
 import page
 
 import config
-import KampiLaskuri
+import crank
 
 
 timer_reset_time = time.time()
@@ -81,7 +81,7 @@ def refresh_page(root, activate_next_frame):
     update_text(earned_teksti)
 
     if (time_elapsed < config.test_time_limit):
-        result = KampiLaskuri.read_serial()
+        result = crank.read_serial()
         if not result:
             time_elapsed = time.time()-timer_reset_time
             refresh_progress()
