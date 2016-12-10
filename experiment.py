@@ -26,35 +26,50 @@ def generate_page(root, width, activate_next_page, experiment_type):
 
     page.generate_content(frame, width, content_text)
 
-    earnings_counter = tk.Label(frame,
-                                text='',
-                                bg=config.background_color,
-                                fg=config.text_color,
-                                font=config.big_font)
-    earnings_counter.pack(side=tk.TOP)
+    iframe2 = tk.Frame(frame)
 
-    if experiment_type == 'negative' or experiment_type == 'positive':
-        if experiment_type == 'negative':
-            text = 'Negative'
-        elif experiment_type == 'positive':
-            text = 'Positive'
+    if experiment_type is 'neutral':
+        earnings_counter = tk.Label(iframe2,
+                                    bg=config.background_color,
+                                    fg=config.text_color,
+                                    font=config.big_font)
+        earnings_counter.pack(side=tk.TOP)
+        tk.Label(iframe2, text='Sinulle kertyvät rahat').pack()
+    else:
+        iframe3 = tk.Frame(iframe2)
+        earnings_counter = tk.Label(iframe3,
+                                    bg=config.background_color,
+                                    fg=config.text_color,
+                                    font=config.big_font)
+        earnings_counter.configure()
+        earnings_counter.pack()
+        tk.Label(iframe3, text='Sinulle kertyvät rahat').pack()
+        iframe3.pack(side=tk.LEFT)
 
-        emotion_measure_counter = tk.Label(frame,
-                                           text=text,
+        iframe4 = tk.Frame(iframe2)
+        global emotion_measure_counter
+        emotion_measure_counter = tk.Label(iframe4,
                                            bg=config.background_color,
                                            fg=config.text_color,
                                            font=config.big_font)
 
-        emotion_measure_counter.pack(side=tk.TOP)
+        emotion_measure_counter.pack()
+        tk.Label(iframe4, text='Hyväntekeväisyyteen lahjoitettavat rahat').pack()
+        iframe4.pack(side=tk.RIGHT)
+
+    iframe2.pack(expand=1, fill=tk.X, padx=config.body_padding)
 
     page.generate_button(frame, 'Kun olet pyörittänyt tarpeeksi,\npaina tästä', activate_next_page)
 
     return frame
 
 
-def update_text(text):
+def update_earnings_text(text):
     earnings_counter.configure(text=text)
-    earnings_counter.pack()
+
+
+def update_emotion_measure_counter_text(text):
+    emotion_measure_counter.configure(text=text)
 
 
 def refresh_progress(result, time_elapsed, progress_data):
@@ -82,29 +97,49 @@ def refresh_progress(result, time_elapsed, progress_data):
     return progress_data
 
 
+def counter_formatter(time_elapsed, interval_seconds, negative=False):
+    counter_value = int(time_elapsed / interval_seconds) / 100
+    if negative:
+        counter_value *= -1
+    counter_value = format(counter_value, '.2f').replace('.', ',') + ' €'
+    return counter_value
+
+
 def update_earnings(time_elapsed):
-    update_text(str(int(time_elapsed / 4) / 100) + ' €')
+    earnings = counter_formatter(time_elapsed, config.earnings_measure_interval_seconds)
+    update_earnings_text(earnings)
 
 
-def do_refresh_page(root, activate_next_frame, experiment_initialized_time, progress_data):
+def update_emotion_measure_counter(time_elapsed, experiment_type):
+    if experiment_type is 'negative' or experiment_type is 'positive':
+        negative_measure = True if experiment_type is 'negative' else False
+        emotion_measure_counter = counter_formatter(time_elapsed,
+                                                    config.emotion_measure_interval_seconds,
+                                                    negative_measure)
+        update_emotion_measure_counter_text(emotion_measure_counter)
+
+
+def do_refresh_page(root, activate_next_frame, experiment_initialized_time, progress_data, experiment_type):
     time_elapsed = time.time() - experiment_initialized_time
 
     if (time_elapsed < config.test_time_limit):
         result = crank.read_serial()
         refresh_progress(result, time_elapsed, progress_data)
         update_earnings(progress_data['time_elapsed'])
+        update_emotion_measure_counter(progress_data['time_elapsed'], experiment_type)
         root.experiment_refresher = root.after(100,
                                                do_refresh_page,
                                                root,
                                                activate_next_frame,
                                                experiment_initialized_time,
-                                               progress_data)
+                                               progress_data,
+                                               experiment_type)
     else:
         root.after_cancel(root.experiment_refresher)
         activate_next_frame()
 
 
-def refresh_page(root, activate_next_frame, experiment_initialized_time):
+def refresh_page(root, activate_next_frame, experiment_initialized_time, experiment_type):
     progress_data = {
             'time_since_last_progress': time.time(),
             'time_elapsed': 0,
@@ -113,4 +148,4 @@ def refresh_page(root, activate_next_frame, experiment_initialized_time):
             'initialized_time': time.time()
             }
 
-    do_refresh_page(root, activate_next_frame, experiment_initialized_time, progress_data)
+    do_refresh_page(root, activate_next_frame, experiment_initialized_time, progress_data, experiment_type)

@@ -62,7 +62,7 @@ def activate_experiment(experiment_type):
     experiment_data = experiment.generate_page(root, window_w, activate_questionnaire, experiment_type)
     activate_page(experiment_data)
     experiment_initialized = time.time()
-    experiment.refresh_page(root, activate_questionnaire, experiment_initialized)
+    experiment.refresh_page(root, activate_questionnaire, experiment_initialized, experiment_type)
 
 
 def activate_questionnaire():
