@@ -6,9 +6,30 @@ import config
 import crank
 
 
-def generate_page(root, width, activate_next_page, experiment_type):
+def calculate_counter_value(time_elapsed, interval_seconds, negative=False):
+    counter_value = int(time_elapsed / interval_seconds) / 100
+    if negative and counter_value != 0:
+        counter_value *= -1
+    return counter_value
+
+
+def on_done(append_data, activate_next_page, experiment_type, progress_data):
+    earnings = calculate_counter_value(progress_data['time_elapsed'], config.earnings_measure_interval_seconds)
+    emotion_measure_counter = 0
+    if experiment_type is 'negative' or experiment_type is 'positive':
+        negative_measure = True if experiment_type is 'negative' else False
+        emotion_measure_counter = calculate_counter_value(progress_data['time_elapsed'],
+                                                          config.emotion_measure_interval_seconds,
+                                                          negative_measure)
+    append_data(experiment_type, earnings, emotion_measure_counter)
+    activate_next_page()
+
+
+def generate_page(root, width, activate_next_page, experiment_type, append_data):
     global progress
     global earnings_counter
+
+    data = {}
 
     frame = page.generate_frame(root)
 
@@ -59,9 +80,11 @@ def generate_page(root, width, activate_next_page, experiment_type):
 
     iframe2.pack(expand=1, fill=tk.X, padx=config.body_padding)
 
-    page.generate_button(frame, 'Kun olet pyörittänyt tarpeeksi,\npaina tästä', activate_next_page)
+    page.generate_button(frame,
+                         'Kun olet pyörittänyt tarpeeksi,\npaina tästä',
+                         lambda: on_done(append_data, activate_next_page, experiment_type, data))
 
-    return frame
+    return {'frame': frame, 'data': data}
 
 
 def update_earnings_text(text):
@@ -98,9 +121,7 @@ def refresh_progress(result, time_elapsed, progress_data):
 
 
 def counter_formatter(time_elapsed, interval_seconds, negative=False):
-    counter_value = int(time_elapsed / interval_seconds) / 100
-    if negative:
-        counter_value *= -1
+    counter_value = calculate_counter_value(time_elapsed, interval_seconds, negative)
     counter_value = format(counter_value, '.2f').replace('.', ',') + ' €'
     return counter_value
 
@@ -139,13 +160,11 @@ def do_refresh_page(root, activate_next_frame, experiment_initialized_time, prog
         activate_next_frame()
 
 
-def refresh_page(root, activate_next_frame, experiment_initialized_time, experiment_type):
-    progress_data = {
-            'time_since_last_progress': time.time(),
-            'time_elapsed': 0,
-            'total_time': 0,
-            'progress_in_progress': True,
-            'initialized_time': time.time()
-            }
+def refresh_page(root, activate_next_frame, experiment_initialized_time, experiment_type, progress_data):
+    progress_data['time_since_last_progress'] = time.time()
+    progress_data['time_elapsed'] = 0
+    progress_data['total_time'] = 0
+    progress_data['progress_in_progress'] = True
+    progress_data['initialized_time'] = time.time()
 
     do_refresh_page(root, activate_next_frame, experiment_initialized_time, progress_data, experiment_type)
