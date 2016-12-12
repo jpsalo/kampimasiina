@@ -17,6 +17,7 @@ output = []
 def append_data(*args):
     global output
     output += list(args)
+    print(output)
 
 
 def get_experiment_type():
@@ -72,7 +73,7 @@ def activate_experiment(experiment_type):
 
 
 def activate_questionnaire():
-    questionnaire_data = questionnaire.generate_page(root, activate_thank_you)
+    questionnaire_data = questionnaire.generate_page(root, activate_thank_you, append_data)
     activate_page(questionnaire_data)
 
 

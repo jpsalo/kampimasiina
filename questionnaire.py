@@ -1,11 +1,72 @@
+import tkinter as tk
+import config
 import page
 
 
-def generate_page(root, activate_next_page):
+def on_select(button, question_variable, data, question_type, questions_data):
+    has_unselected = False
+    for question in questions_data:
+        if question['type'] is question_type:
+            question['selected'] = True
+        else:
+            if 'selected' not in question:
+                has_unselected = True
+
+    if not has_unselected:
+        button.config(state=tk.NORMAL)
+
+    data[question_type] = question_variable.get()
+
+
+def generate_question(frame, button, data, questions_data, question):
+    iframe1 = tk.Frame(frame)
+    page.generate_title(frame, question['title'])
+
+    question_variable = tk.IntVar()
+    for selection_value in range(1, 5):
+        radio_button = page.generate_radio_button(
+                iframe1,
+                question_variable,
+                selection_value,
+                selection_value,
+                lambda: on_select(button, question_variable, data, question['type'], questions_data), True)
+        radio_button.config(indicatoron=0)
+        radio_button.pack(side=tk.LEFT)
+
+    iframe1.pack(padx=config.body_padding)
+
+
+def on_done(append_data, data, activate_next_page):
+    append_data(*list(data.values()))
+    activate_next_page()
+
+
+def generate_page(root, activate_next_page, append_data):
+    data = {}
+    questions_data = [{
+        'type': 'feeling',
+        'title': 'Mikä on olosi tällä hetkellä?',
+        'id': 1
+        },
+        {
+        'type': 'vitality',
+        'title': 'Kuinka energinen on olosi tällä hetkellä?',
+        'id': 2
+        },
+        {
+        'type': 'meaningness',
+        'title': 'Kuinka merkitykselliseltä kahvan pyörittäminen tuntui?',
+        'id': 3
+        }]
+
     frame = page.generate_frame(root)
 
-    page.generate_title(frame, 'Mikä on olosi tällä hetkellä?')
+    button = page.generate_button(frame, 'Valmis', lambda: on_done(append_data, data, activate_next_page), True)
+    button.config(state=tk.DISABLED)
 
-    page.generate_button(frame, 'Valmis', activate_next_page)
+    for question in questions_data:
+        generate_question(frame, button, data, questions_data, question)
+
+    page.pack_button(button)
 
     return frame

@@ -39,5 +39,22 @@ def generate_button(frame, text, command, skip_pack=False):
     return button
 
 
-def pack_button(button):
-    button.pack(side=tk.TOP, fill=tk.Y, expand=1)
+def generate_radio_button(frame, variable, text, value, command, skip_pack=False, **keyword_parameters):
+    radio_button = tk.Radiobutton(frame,
+                                  text=text,
+                                  variable=variable,
+                                  value=value,
+                                  command=command)
+    if 'font' in keyword_parameters:
+        radio_button.config(font=keyword_parameters['font'])
+    if not skip_pack:
+        pack_radio_button(radio_button)
+    return radio_button
+
+
+def pack_button(widget):
+    widget.pack(side=tk.TOP, fill=tk.Y, expand=1)
+
+
+def pack_radio_button(widget):
+    widget.pack(side=tk.RIGHT, anchor=tk.W)

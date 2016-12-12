@@ -15,16 +15,6 @@ def on_done(activate_next_page, append_data, gender_variable, age_variable):
     activate_next_page()
 
 
-def generate_radio_button(frame, gender_variable, text, value, age_variable, button):
-    radio_button = tk.Radiobutton(frame,
-                                  text=text,
-                                  font=config.large_font,
-                                  variable=gender_variable,
-                                  value=value,
-                                  command=lambda: on_select(age_variable, button))
-    radio_button.pack(side=tk.RIGHT, anchor=tk.W)
-
-
 def generate_page(root, width, activate_next_page, append_data):
     gender_variable = tk.IntVar()
     age_variable = tk.IntVar()
@@ -46,9 +36,27 @@ def generate_page(root, width, activate_next_page, append_data):
 
     tk.Label(iframe1, text='Sukupuoli', font=config.large_font).pack(side=tk.LEFT, padx=5)
 
-    generate_radio_button(iframe1, gender_variable, 'Muu / En halua sanoa', 3, age_variable, button)
-    generate_radio_button(iframe1, gender_variable, 'Mies', 2, age_variable, button)
-    generate_radio_button(iframe1, gender_variable, 'Nainen', 1, age_variable, button)
+    page.generate_radio_button(
+            iframe1,
+            gender_variable,
+            'Muu / En halua sanoa',
+            3,
+            lambda: on_select(age_variable, button),
+            font=config.large_font)
+    page.generate_radio_button(
+            iframe1,
+            gender_variable,
+            'Mies',
+            2,
+            lambda: on_select(age_variable, button),
+            font=config.large_font)
+    page.generate_radio_button(
+            iframe1,
+            gender_variable,
+            'Nainen',
+            1,
+            lambda: on_select(age_variable, button),
+            font=config.large_font)
 
     iframe1.pack(expand=1, fill=tk.X, padx=config.body_padding)
 
