@@ -11,10 +11,12 @@ import questionnaire
 import thank_you
 
 pages = []
+output = []
 
 
 def append_data(*args):
-    print(args)
+    global output
+    output += list(args)
 
 
 def get_experiment_type():
