@@ -1,4 +1,5 @@
-﻿import tkinter as tk
+﻿import csv
+import tkinter as tk
 from random import randint
 import time
 
@@ -17,7 +18,12 @@ output = []
 def append_data(*args):
     global output
     output += list(args)
-    print(output)
+
+
+def save_output():
+    output_csv = open('output.csv', 'a')
+    csv_writer = csv.writer(output_csv)
+    csv_writer.writerow(output)
 
 
 def get_experiment_type():
@@ -80,6 +86,7 @@ def activate_questionnaire(earnings):
 def activate_thank_you(earnings):
     thank_you_data = thank_you.generate_page(root, window_w, earnings)
     activate_page(thank_you_data)
+    save_output()
 
 
 # Create main window
