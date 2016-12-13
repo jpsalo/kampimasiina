@@ -2,7 +2,7 @@ import serial
 
 ser = serial.Serial()
 ser.baudrate = 9600
-ser.port = '/dev/tty.usbmodem1411'  # NOTE: Change this to COM1
+# ser.port = '/dev/tty.usbmodem1411'  # NOTE: Change this to COM1
 
 
 signal_strength = [0] * 110
