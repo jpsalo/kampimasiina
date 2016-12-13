@@ -43,8 +43,7 @@ def generate_page(root, width, activate_next_page, experiment_type, append_data)
                         font=config.big_font)
     progress.pack(side=tk.TOP)
 
-    content_text = ('HUOM: Pyöritysnopeudella ei ole väliä.'
-                    'Nopea pyöritys ei [UNDERLINE] tuota enemmän rahaa.')
+    content_text = ('HUOM: Pyöritysnopeudella ei ole väliä. Nopea pyöritys ei tuota enemmän rahaa.')
 
     page.generate_content(frame, width, content_text)
 
