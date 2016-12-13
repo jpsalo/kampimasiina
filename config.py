@@ -2,7 +2,7 @@
 background_color = 'white'
 body_padding = 200
 text_color = 'black'
-jumbo_font = ('Helvetica', 70)
+jumbo_font = ('Helvetica', 90)
 big_font = ('Helvetica', 40)
 large_font = ('helvetica', 30)
 small_font = ('Helvetica', 20)

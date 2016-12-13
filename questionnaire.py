@@ -25,6 +25,7 @@ def generate_question(frame, button, questions_data, question):
     iframe1 = tk.Frame(frame)
     page.generate_title(frame, question['title'])
 
+    iframe2 = tk.Frame(iframe1)
     select_buttons = []
 
     for selection_value in range(1, 6):
@@ -41,7 +42,7 @@ def generate_question(frame, button, questions_data, question):
 
         button_text = button_texts[selection_value - 1]
 
-        select_button = tk.Label(iframe1, text=button_text, font=config.jumbo_font, padx=10)
+        select_button = tk.Label(iframe2, text=button_text, font=config.jumbo_font, padx=10)
         select_button.bind(
                 '<Button-1>',
                 make_lambda(
@@ -55,7 +56,12 @@ def generate_question(frame, button, questions_data, question):
         select_button.pack(side=tk.LEFT)
         select_buttons.append(select_button)
 
-    iframe1.pack(padx=config.body_padding)
+    iframe2.pack()
+
+    tk.Label(iframe1, text=question['disagreement_text'], font=config.small_font, justify=tk.LEFT).pack(side=tk.LEFT)
+    tk.Label(iframe1, text=question['agreement_text'], font=config.small_font, justify=tk.RIGHT).pack(side=tk.RIGHT)
+
+    iframe1.pack()
 
 
 def on_done(append_data, questions_data, earnings, activate_next_page):
@@ -69,16 +75,22 @@ def generate_page(root, activate_next_page, earnings, append_data):
     questions_data = [{
         'type': 'feeling',
         'title': 'Mikä on olosi tällä hetkellä?',
+        'agreement_text': 'Erittäin\nhyvä',
+        'disagreement_text': 'Erittäin\nhuono',
         'id': 1
         },
         {
         'type': 'vitality',
         'title': 'Kuinka energinen on olosi tällä hetkellä?',
+        'agreement_text': 'Erittäin\nenerginen',
+        'disagreement_text': 'Erittäin\nuupunut ja leipäytynyt',
         'id': 2
         },
         {
         'type': 'meaningness',
         'title': 'Kuinka merkitykselliseltä kahvan pyörittäminen tuntui?',
+        'agreement_text': 'Erittäin\nmerkityksellinen',
+        'disagreement_text': 'Täysin\nmerkityksetön',
         'id': 3
         }]
 
