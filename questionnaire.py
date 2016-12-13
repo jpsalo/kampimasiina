@@ -2,12 +2,16 @@ import tkinter as tk
 import config
 import page
 
+button_texts = [u'\u2460', u'\u2461', u'\u2462', u'\u2463', u'\u2464']
 
-def on_select(button, question_variable, question_type, questions_data):
+
+def on_select(event, button, selection_value, question_type, questions_data, activate_selection, select_buttons):
+    activate_selection(event, select_buttons)
+
     has_unselected = False
     for question in questions_data:
         if question['type'] is question_type:
-            question['value'] = question_variable.get()
+            question['value'] = selection_value
             question['selected'] = True
         else:
             if 'selected' not in question:
@@ -21,16 +25,35 @@ def generate_question(frame, button, questions_data, question):
     iframe1 = tk.Frame(frame)
     page.generate_title(frame, question['title'])
 
-    question_variable = tk.IntVar()
+    select_buttons = []
+
     for selection_value in range(1, 6):
-        radio_button = page.generate_radio_button(
-                iframe1,
-                question_variable,
-                selection_value,
-                selection_value,
-                lambda: on_select(button, question_variable, question['type'], questions_data), True)
-        radio_button.config(indicatoron=0)
-        radio_button.pack(side=tk.LEFT)
+        def make_lambda(button, selection_value, question_type, questions_data, activate_selection, select_buttons):
+            # http://stackoverflow.com/a/14260871/7010222
+            return lambda event: on_select(
+                    event,
+                    button,
+                    selection_value,
+                    question_type,
+                    questions_data,
+                    activate_selection,
+                    select_buttons)
+
+        button_text = button_texts[selection_value - 1]
+
+        select_button = tk.Label(iframe1, text=button_text, font=config.jumbo_font, padx=10)
+        select_button.bind(
+                '<Button-1>',
+                make_lambda(
+                    button,
+                    selection_value,
+                    question['type'],
+                    questions_data,
+                    activate_selection,
+                    select_buttons,
+                    ))
+        select_button.pack(side=tk.LEFT)
+        select_buttons.append(select_button)
 
     iframe1.pack(padx=config.body_padding)
 
@@ -74,3 +97,9 @@ def generate_page(root, activate_next_page, earnings, append_data):
     page.pack_button(button)
 
     return frame
+
+
+def activate_selection(event, select_buttons):
+    for widget in select_buttons:
+        widget.configure(fg=config.inactive_button_color)
+    event.widget.configure(fg=config.active_button_color)
