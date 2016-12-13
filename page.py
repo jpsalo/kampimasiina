@@ -18,14 +18,17 @@ def generate_title(frame, text):
     title.pack(side=tk.TOP, fill=tk.BOTH, expand=1)
 
 
-def generate_content(frame, width, text):
+def generate_content(frame, width, text, skip_pack=False):
     content = tk.Label(frame,
                        text=text,
                        bg=config.background_color,
                        fg=config.text_color,
                        font=config.small_font,
                        wraplength=width-config.body_padding)
-    content.pack(side=tk.TOP, fill=tk.BOTH, expand=1)
+    if not skip_pack:
+        content.pack(side=tk.TOP, fill=tk.BOTH, expand=1)
+
+    return content
 
 
 def generate_button(frame, text, command, skip_pack=False):

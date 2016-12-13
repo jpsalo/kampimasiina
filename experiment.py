@@ -4,6 +4,7 @@ import page
 
 import config
 import crank
+import utilities
 
 
 def calculate_counter_value(time_elapsed, interval_seconds, negative=False):
@@ -22,7 +23,7 @@ def on_done(append_data, activate_next_page, experiment_type, progress_data):
                                                           config.emotion_measure_interval_seconds,
                                                           negative_measure)
     append_data(experiment_type, earnings, emotion_measure_counter)
-    activate_next_page()
+    activate_next_page(earnings)
 
 
 def generate_page(root, width, activate_next_page, experiment_type, append_data):
@@ -62,7 +63,6 @@ def generate_page(root, width, activate_next_page, experiment_type, append_data)
                                     bg=config.background_color,
                                     fg=config.text_color,
                                     font=config.big_font)
-        earnings_counter.configure()
         earnings_counter.pack()
         tk.Label(iframe3, text='Sinulle kertyvät rahat').pack()
         iframe3.pack(side=tk.LEFT)
@@ -122,7 +122,7 @@ def refresh_progress(result, time_elapsed, progress_data):
 
 def counter_formatter(time_elapsed, interval_seconds, negative=False):
     counter_value = calculate_counter_value(time_elapsed, interval_seconds, negative)
-    counter_value = format(counter_value, '.2f').replace('.', ',') + ' €'
+    counter_value = utilities.to_euros(counter_value)
     return counter_value
 
 

@@ -35,14 +35,14 @@ def generate_question(frame, button, questions_data, question):
     iframe1.pack(padx=config.body_padding)
 
 
-def on_done(append_data, questions_data, activate_next_page):
+def on_done(append_data, questions_data, earnings, activate_next_page):
     sorted_questions_data = sorted(questions_data, key=lambda k: k['id'])
     values = [question['value'] for question in sorted_questions_data]
     append_data(*values)
-    activate_next_page()
+    activate_next_page(earnings)
 
 
-def generate_page(root, activate_next_page, append_data):
+def generate_page(root, activate_next_page, earnings, append_data):
     questions_data = [{
         'type': 'feeling',
         'title': 'Mikä on olosi tällä hetkellä?',
@@ -64,7 +64,7 @@ def generate_page(root, activate_next_page, append_data):
     button = page.generate_button(
             frame,
             'Valmis',
-            lambda: on_done(append_data, questions_data, activate_next_page),
+            lambda: on_done(append_data, questions_data, earnings, activate_next_page),
             True)
     button.config(state=tk.DISABLED)
 

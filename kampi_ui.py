@@ -72,13 +72,13 @@ def activate_experiment(experiment_type):
                             experiment_data['data'])
 
 
-def activate_questionnaire():
-    questionnaire_data = questionnaire.generate_page(root, activate_thank_you, append_data)
+def activate_questionnaire(earnings):
+    questionnaire_data = questionnaire.generate_page(root, activate_thank_you, earnings, append_data)
     activate_page(questionnaire_data)
 
 
-def activate_thank_you():
-    thank_you_data = thank_you.generate_page(root, window_w)
+def activate_thank_you(earnings):
+    thank_you_data = thank_you.generate_page(root, window_w, earnings)
     activate_page(thank_you_data)
 
 
