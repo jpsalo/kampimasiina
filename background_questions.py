@@ -32,9 +32,10 @@ def generate_page(root, width, activate_next_page, append_data):
                                   True)
     button.config(state=tk.DISABLED)
 
-    iframe1 = tk.Frame(frame)
+    iframe1 = page.generate_frame(frame)
 
-    tk.Label(iframe1, text='Sukupuoli', font=config.large_font).pack(side=tk.LEFT, padx=5)
+    gender_label = page.generate_label(iframe1, 'Sukupuoli', config.large_font)
+    gender_label.pack(side=tk.LEFT, padx=5)
 
     page.generate_radio_button(
             iframe1,
@@ -60,9 +61,10 @@ def generate_page(root, width, activate_next_page, append_data):
 
     iframe1.pack(expand=1, fill=tk.X, padx=config.body_padding)
 
-    iframe2 = tk.Frame(frame)
+    iframe2 = page.generate_frame(frame)
 
-    tk.Label(iframe2, text='Ikäsi', font=config.large_font).pack(side=tk.LEFT, padx=5)
+    age_label = page.generate_label(iframe2, 'Ikäsi', config.large_font)
+    age_label.pack(side=tk.LEFT, padx=5)
 
     ages = list(range(18, 100))
     drop = tk.OptionMenu(iframe2, age_variable, *ages, command=lambda x: on_select(gender_variable, button))

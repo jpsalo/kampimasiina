@@ -31,6 +31,12 @@ def generate_content(frame, width, text, skip_pack=False):
     return content
 
 
+def generate_label(parent, text, font):
+   label = tk.Label(parent, text=text, font=font)
+   label.configure(background=config.background_color)
+   return label
+
+
 def generate_button(frame, text, command, skip_pack=False):
     button = tk.Button(frame,
                        text=text,
@@ -45,6 +51,8 @@ def generate_button(frame, text, command, skip_pack=False):
 def generate_radio_button(frame, variable, text, value, command, skip_pack=False, **keyword_parameters):
     radio_button = tk.Radiobutton(frame,
                                   text=text,
+                                  bg=config.background_color,
+                                  borderwidth=0,
                                   variable=variable,
                                   value=value,
                                   command=command)

@@ -6,6 +6,7 @@ jumbo_font = ('Helvetica', 90)
 big_font = ('Helvetica', 40)
 large_font = ('helvetica', 30)
 small_font = ('Helvetica', 20)
+tiny_font = ('Helvetica', 10)
 button_font = ('Helvetica', 30)
 active_button_color = 'red'
 inactive_button_color = 'black'

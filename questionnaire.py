@@ -22,10 +22,10 @@ def on_select(event, button, selection_value, question_type, questions_data, act
 
 
 def generate_question(frame, button, questions_data, question):
-    iframe1 = tk.Frame(frame)
+    iframe1 = page.generate_frame(frame)
     page.generate_title(frame, question['title'])
 
-    iframe2 = tk.Frame(iframe1)
+    iframe2 = page.generate_frame(iframe1)
     select_buttons = []
 
     for selection_value in range(1, 6):
@@ -42,7 +42,8 @@ def generate_question(frame, button, questions_data, question):
 
         button_text = button_texts[selection_value - 1]
 
-        select_button = tk.Label(iframe2, text=button_text, font=config.jumbo_font, padx=10)
+        select_button = page.generate_label(iframe2, button_text, config.jumbo_font)
+        select_button.config(padx=10)
         select_button.bind(
                 '<Button-1>',
                 make_lambda(
@@ -58,8 +59,12 @@ def generate_question(frame, button, questions_data, question):
 
     iframe2.pack()
 
-    tk.Label(iframe1, text=question['disagreement_text'], font=config.small_font, justify=tk.LEFT).pack(side=tk.LEFT)
-    tk.Label(iframe1, text=question['agreement_text'], font=config.small_font, justify=tk.RIGHT).pack(side=tk.RIGHT)
+    disagreement_text = page.generate_label(iframe1, question['disagreement_text'], config.small_font)
+    disagreement_text.config(justify=tk.LEFT)
+    disagreement_text.pack(side=tk.LEFT)
+    agreement_text = page.generate_label(iframe1, question['agreement_text'], config.small_font)
+    agreement_text.config(justify=tk.RIGHT)
+    agreement_text.pack(side=tk.RIGHT)
 
     iframe1.pack()
 

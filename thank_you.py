@@ -12,7 +12,7 @@ def generate_page(root, width, earnings):
 
     content_text = 'Tutkija maksaa nyt sinulle keräämäsi rahasumman:'
 
-    iframe1 = tk.Frame(frame)
+    iframe1 = page.generate_frame(frame)
 
     content = page.generate_content(iframe1, width, content_text, True)
     content.pack(side=tk.TOP)

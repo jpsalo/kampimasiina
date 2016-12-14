@@ -47,34 +47,25 @@ def generate_page(root, width, activate_next_page, experiment_type, append_data)
 
     page.generate_content(frame, width, content_text)
 
-    iframe2 = tk.Frame(frame)
+    iframe2 = page.generate_frame(frame)
 
     if experiment_type is 'neutral':
-        earnings_counter = tk.Label(iframe2,
-                                    bg=config.background_color,
-                                    fg=config.text_color,
-                                    font=config.big_font)
+        earnings_counter = page.generate_label(iframe2, None, config.big_font)
         earnings_counter.pack(side=tk.TOP)
-        tk.Label(iframe2, text='Sinulle kertyvät rahat').pack()
+        page.generate_label(iframe2, 'Sinulle kertyvät rahat', config.tiny_font).pack()
     else:
-        iframe3 = tk.Frame(iframe2)
-        earnings_counter = tk.Label(iframe3,
-                                    bg=config.background_color,
-                                    fg=config.text_color,
-                                    font=config.big_font)
+        iframe3 = page.generate_frame(iframe2)
+        earnings_counter = page.generate_label(iframe3, None, config.big_font)
         earnings_counter.pack()
-        tk.Label(iframe3, text='Sinulle kertyvät rahat').pack()
+        page.generate_label(iframe3, 'Sinulle kertyvät rahat', font=config.tiny_font).pack()
         iframe3.pack(side=tk.LEFT)
 
-        iframe4 = tk.Frame(iframe2)
+        iframe4 = page.generate_frame(iframe2)
         global emotion_measure_counter
-        emotion_measure_counter = tk.Label(iframe4,
-                                           bg=config.background_color,
-                                           fg=config.text_color,
-                                           font=config.big_font)
+        emotion_measure_counter = page.generate_label(iframe4, None, config.big_font)
 
         emotion_measure_counter.pack()
-        tk.Label(iframe4, text='Hyväntekeväisyyteen lahjoitettavat rahat').pack()
+        page.generate_label(iframe4, 'Hyväntekeväisyyteen lahjoitettavat rahat', config.tiny_font).pack()
         iframe4.pack(side=tk.RIGHT)
 
     iframe2.pack(expand=1, fill=tk.X, padx=config.body_padding)
