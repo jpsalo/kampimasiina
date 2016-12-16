@@ -100,7 +100,7 @@ def refresh_progress(result, time_elapsed, progress_data):
 
     if result:
         progress_data['time_since_last_progress'] = time.time()
-        progress.configure(text='●●●●●●●')
+        progress.configure(text='●●●●●●●●')
         if not progress_data['progress_in_progress']:
             progress_data['progress_in_progress'] = True
             progress_data['initialized_time'] = time.time()
