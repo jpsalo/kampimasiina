@@ -71,11 +71,13 @@ def activate_experiment(experiment_type):
     experiment_data = experiment.generate_page(root, window_w, activate_questionnaire, experiment_type, append_data)
     activate_page(experiment_data['frame'])
     experiment_initialized = time.time()
-    experiment.refresh_page(root,
-                            activate_questionnaire,
-                            experiment_initialized,
-                            experiment_type,
-                            experiment_data['data'])
+    experiment.refresh_page(
+            root,
+            activate_questionnaire,
+            experiment_initialized,
+            experiment_type,
+            experiment_data['data'],
+            append_data)
 
 
 def activate_questionnaire(earnings):

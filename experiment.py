@@ -130,7 +130,13 @@ def update_emotion_measure_counter(time_elapsed, experiment_type):
         update_emotion_measure_counter_text(emotion_measure_counter)
 
 
-def do_refresh_page(root, activate_next_frame, experiment_initialized_time, progress_data, experiment_type):
+def do_refresh_page(
+        root,
+        activate_next_frame,
+        experiment_initialized_time,
+        progress_data,
+        experiment_type,
+        append_data):
     time_elapsed = time.time() - experiment_initialized_time
 
     if (time_elapsed < config.test_time_limit):
@@ -138,23 +144,32 @@ def do_refresh_page(root, activate_next_frame, experiment_initialized_time, prog
         refresh_progress(result, time_elapsed, progress_data)
         update_earnings(progress_data['time_elapsed'])
         update_emotion_measure_counter(progress_data['time_elapsed'], experiment_type)
-        root.experiment_refresher = root.after(100,
-                                               do_refresh_page,
-                                               root,
-                                               activate_next_frame,
-                                               experiment_initialized_time,
-                                               progress_data,
-                                               experiment_type)
+        root.experiment_refresher = root.after(
+                100,
+                do_refresh_page,
+                root,
+                activate_next_frame,
+                experiment_initialized_time,
+                progress_data,
+                experiment_type,
+                append_data)
+
     else:
         root.after_cancel(root.experiment_refresher)
-        activate_next_frame()
+        on_done(append_data, activate_next_frame, experiment_type, progress_data)
 
 
-def refresh_page(root, activate_next_frame, experiment_initialized_time, experiment_type, progress_data):
+def refresh_page(root, activate_next_frame, experiment_initialized_time, experiment_type, progress_data, append_data):
     progress_data['time_since_last_progress'] = time.time()
     progress_data['time_elapsed'] = 0
     progress_data['total_time'] = 0
     progress_data['progress_in_progress'] = True
     progress_data['initialized_time'] = time.time()
 
-    do_refresh_page(root, activate_next_frame, experiment_initialized_time, progress_data, experiment_type)
+    do_refresh_page(
+            root,
+            activate_next_frame,
+            experiment_initialized_time,
+            progress_data,
+            experiment_type,
+            append_data)
