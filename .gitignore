@@ -1,10 +1,18 @@
 output.csv
 
-# Created by https://www.gitignore.io/api/python
+# Created by https://www.gitignore.io/api/django,python
+
+### Django ###
+*.log
+*.pot
+*.pyc
+__pycache__/
+local_settings.py
+db.sqlite3
+media
 
 ### Python ###
 # Byte-compiled / optimized / DLL files
-__pycache__/
 *.py[cod]
 *$py.class
 
@@ -25,6 +33,7 @@ lib64/
 parts/
 sdist/
 var/
+wheels/
 *.egg-info/
 .installed.cfg
 *.egg
@@ -52,11 +61,8 @@ coverage.xml
 
 # Translations
 *.mo
-*.pot
 
 # Django stuff:
-*.log
-local_settings.py
 
 # Flask stuff:
 instance/
@@ -94,3 +100,4 @@ ENV/
 # Rope project settings
 .ropeproject
 
+# End of https://www.gitignore.io/api/django,python
