@@ -10,6 +10,11 @@ urlpatterns = [
         name='index'
         ),
     url(
+        r'^background-questions$',
+        views.BackgroundQuestionsView.as_view(),
+        name='background-questions'
+        ),
+    url(
         r'^(?P<pk>[0-9]+)/$',
         views.DetailView.as_view(),
         name='detail'

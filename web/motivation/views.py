@@ -8,12 +8,16 @@ from .models import Choice, Question
 # Create your views here.
 
 
-class IndexView(generic.ListView):
+class IndexView(generic.TemplateView):
     template_name = 'motivation/index.html'
     context_object_name = 'latest_question_list'
 
     def get_queryset(self):
         return Question.objects.order_by('-pub_date')[:5]
+
+
+class BackgroundQuestionsView(generic.TemplateView):
+    template_name = 'motivation/background_questions.html'
 
 
 class DetailView(generic.DetailView):
