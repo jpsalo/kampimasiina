@@ -5,7 +5,15 @@ import page
 button_texts = [u'\u2460', u'\u2461', u'\u2462', u'\u2463', u'\u2464']
 
 
-def on_select(event, button, selection_value, question_type, questions_data, activate_selection, select_buttons):
+def on_select(
+        event,
+        button,
+        selection_value,
+        question_type,
+        questions_data,
+        activate_selection,
+        select_buttons
+        ):
     activate_selection(event, select_buttons)
 
     has_unselected = False
