@@ -15,6 +15,11 @@ urlpatterns = [
         name='background-questions'
         ),
     url(
+        r'^instructions$',
+        views.InstructionsView.as_view(),
+        name='instructions'
+        ),
+    url(
         r'^(?P<pk>[0-9]+)/$',
         views.DetailView.as_view(),
         name='detail'

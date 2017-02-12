@@ -9,6 +9,7 @@ from .models import Choice, Question
 
 
 class IndexView(generic.TemplateView):
+# class IndexView(generic.ListView):
     template_name = 'motivation/index.html'
     context_object_name = 'latest_question_list'
 
@@ -18,6 +19,17 @@ class IndexView(generic.TemplateView):
 
 class BackgroundQuestionsView(generic.TemplateView):
     template_name = 'motivation/background_questions.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(BackgroundQuestionsView, self).get_context_data(
+                **kwargs
+                )
+        context['ages'] = list(range(18, 100))
+        return context
+
+
+class InstructionsView(generic.TemplateView):
+    template_name = 'motivation/instructions.html'
 
 
 class DetailView(generic.DetailView):

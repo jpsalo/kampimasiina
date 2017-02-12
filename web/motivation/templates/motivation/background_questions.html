@@ -1,0 +1,24 @@
+<h1>Taustakysymykset</h1>
+
+<p>Ennen kokeen aloittamista tarvitsemme muutaman tiedon taustastasi:</p>
+
+<p>Sukupuoli:</p>
+
+<form action="">
+    <label for="male">Nainen</label>
+    <input type="radio" name="gender" id="male" value="male"><br>
+    <label for="female">Mies</label>
+    <input type="radio" name="gender" id="female" value="female"><br>
+    <label for="other">Muu / En halua sanoa</label>
+    <input type="radio" name="gender" id="other" value="other"><br><br>
+</form>
+
+<label for="age-dropdown">Ikä:</label>
+<select id="age-dropdown">
+    {% for age in ages %}
+        <option value="{{ age }}">{{ age }}</option>
+    {% endfor %}
+</select>
+
+<a href="{% url 'motivation:instructions' %}">Jatka</a>
+
