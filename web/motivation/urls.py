@@ -20,6 +20,11 @@ urlpatterns = [
         name='instructions'
         ),
     url(
+        r'^experiment$',
+        views.ExperimentView.as_view(),
+        name='experiment'
+        ),
+    url(
         r'^(?P<pk>[0-9]+)/$',
         views.DetailView.as_view(),
         name='detail'

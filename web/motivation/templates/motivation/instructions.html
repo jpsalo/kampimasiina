@@ -1,0 +1,44 @@
+{# #}
+
+<p>
+    Tehtävänäsi on pyörittää kahvaa.
+    Voit pyörittää kahvaa niin kauan kuin haluat (maksimissaan 15 minuuttia).
+    Pyörittämisnopeudella ei ole vaikutusta tulokseen,
+    joten ei ole mitään hyötyä pyörittää kahvaa erityisen nopeasti.
+    Voit lopettaa pyörittämisen koska vain itse haluat.
+</p>
+
+{% if experiment_type == 'neutral' %}
+    <p>
+        Kun pyörität kahvaa, sinulle kertyy rahaa.
+        Saat 1 sentin joka 4. sekunti.
+        Tuntipalkkasi on siis 9 € / tunti.
+        Kun olet valmis, tutkija maksaa sinulle kertyneen rahasumman käteisellä.
+    </p>
+{% else %}
+    <p>
+        Kun pyörität kahvaa, tapahtuu kaksi asiaa:
+        1) SINULLE KERTYY RAHAA
+        Saat 1 sentin joka 4. sekunti.
+        Tuntipalkkasi on siis 9 € / tunti.
+        Kun olet valmis, tutkija maksaa sinulle kertyneen rahasumman käteisellä.
+    </p>
+    {% if experiment_type == 'negative' %}
+        <p>
+            2) PUNAISELLE RISTILLE KERTYY VÄHEMMÄN RAHAA
+            Tutkija tekee kokeiden jälkeen lahjoituksen Punaiselle Ristille.
+            Mutta niin kauan kuin pyörität kahvaa,
+            Punainen risti saa 1 sentin vähemmän rahaa joka 16. sekunti.
+            Eli kahvan pyöritys vähentää Punaiselle Ristille tehtävää lahjoitusta.
+        </p>
+    {% elif experiment_type == 'positive' %}
+        <p>
+            2) PUNAISELLE RISTILLE KERTYY RAHAA
+            Punainen Risti saa 1 sentin joka 16. sekunti.
+            Kokeiden jälkeen tutkija maksaa kertyneen rahasumman Punaiselle Ristille.
+        </p>
+    {% endif %}
+{% endif %}
+
+<a href="{% url 'motivation:experiment' %}">Aloita koe</a>
+

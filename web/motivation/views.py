@@ -1,3 +1,5 @@
+from random import randint
+
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.urls import reverse
@@ -29,7 +31,29 @@ class BackgroundQuestionsView(generic.TemplateView):
 
 
 class InstructionsView(generic.TemplateView):
+
+    @staticmethod
+    def get_experiment_type():
+        random_experiment = randint(-1, 1)
+        if random_experiment == -1:
+            return 'negative'
+        elif random_experiment == 0:
+            return 'neutral'
+        else:
+            return 'positive'
+
+    def get_context_data(self, **kwargs):
+        context = super(InstructionsView, self).get_context_data(
+                **kwargs
+                )
+        context['experiment_type'] = self.get_experiment_type()
+        return context
+
     template_name = 'motivation/instructions.html'
+
+
+class ExperimentView(generic.TemplateView):
+    template_name = 'motivation/experiment.html'
 
 
 class DetailView(generic.DetailView):
