@@ -56,6 +56,14 @@ class ExperimentView(generic.TemplateView):
     template_name = 'motivation/experiment.html'
 
 
+class QuestionnaireView(generic.TemplateView):
+    template_name = 'motivation/questionnaire.html'
+
+
+class ThankYouView(generic.TemplateView):
+    template_name = 'motivation/thank_you.html'
+
+
 class DetailView(generic.DetailView):
     model = Question
     template_name = 'motivation/detail.html'

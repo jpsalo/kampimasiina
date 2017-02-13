@@ -25,6 +25,16 @@ urlpatterns = [
         name='experiment'
         ),
     url(
+        r'^questionnaire$',
+        views.QuestionnaireView.as_view(),
+        name='questionnaire'
+        ),
+    url(
+        r'^thank-you$',
+        views.ThankYouView.as_view(),
+        name='thank-you'
+        ),
+    url(
         r'^(?P<pk>[0-9]+)/$',
         views.DetailView.as_view(),
         name='detail'
