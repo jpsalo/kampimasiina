@@ -28,6 +28,7 @@ from django.db import models
 
 class Questionnaire(models.Model):
     def __str__(self):
-        return self.questionnaire_mturk
+        return self.mturk
 
-    questionnaire_mturk = models.CharField(max_length=200)
+    mturk = models.CharField(max_length=200)
+    experiment_type = models.IntegerField(default=0)

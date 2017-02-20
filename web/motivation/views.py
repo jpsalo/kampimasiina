@@ -1,4 +1,4 @@
-# from random import randint
+from random import randint
 
 # from django.shortcuts import render, get_object_or_404
 from django.shortcuts import render
@@ -47,6 +47,22 @@ def index(request):
 
 # http://stackoverflow.com/a/14729363
 def instructions(request):
+
+    def get_experiment_type():
+        random_experiment = randint(-1, 1)
+
+        questionnaire_id = request.session.get('id')
+        questionnaire = Questionnaire.objects.get(id=questionnaire_id)
+        questionnaire.experiment_type = random_experiment
+        questionnaire.save()
+
+        if random_experiment == -1:
+            return 'negative'
+        elif random_experiment == 0:
+            return 'neutral'
+        else:
+            return 'positive'
+
     # if request.method == 'POST':
     #     form = NameForm(request.POST)
     #     if form.is_valid():
@@ -58,11 +74,17 @@ def instructions(request):
         form = QuestionnaireForm(request.POST)
         if form.is_valid():
             mturk = form.cleaned_data['mturk']
-            questionnaire = Questionnaire(questionnaire_mturk=mturk)
+            questionnaire = Questionnaire(mturk=mturk)
             questionnaire.save()
+            request.session['mturk'] = mturk
+            request.session['id'] = questionnaire.id
 
     # model = Questionnaire
-    return render(request, 'motivation/instructions.html', {'mturk': mturk})
+    return render(
+            request,
+            'motivation/instructions.html',
+            {'mturk': mturk, 'experiment_type': get_experiment_type(), }
+            )
 
 
 # class InstructionsView(generic.TemplateView):
@@ -89,8 +111,7 @@ def instructions(request):
 
 # class ExperimentView(generic.TemplateView):
 def experiment(request):
-    mturk = request.GET.get('mturk')
-    print('experiment', mturk)
+    mturk = request.session.get('mturk')
     # template_name = 'motivation/experiment.html'
     return render(request, 'motivation/experiment.html', {'mturk': mturk})
 

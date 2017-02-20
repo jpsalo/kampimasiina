@@ -1,5 +1,7 @@
 {# #}
 
+<h1>{{ experiment_type }}</h1>
+
 <p>
     Tehtävänäsi on pyörittää kahvaa.
     Voit pyörittää kahvaa niin kauan kuin haluat (maksimissaan 15 minuuttia).
@@ -40,4 +42,4 @@
     {% endif %}
 {% endif %}
 
-<a href="{% url 'motivation:experiment' %}?mturk={{ mturk }}">Aloita koe</a>
+<a href="{% url 'motivation:experiment' %}">Aloita koe</a>
