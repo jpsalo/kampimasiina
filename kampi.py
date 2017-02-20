@@ -1,4 +1,4 @@
-﻿import csv
+import csv
 import tkinter as tk
 from random import randint
 import time
