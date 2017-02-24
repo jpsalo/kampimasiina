@@ -1,5 +1,15 @@
 {# #}
 
-<h1>Pyöritä kampea niin kauan kuin haluat</h1>
+<p>Push the corresponding button to the letter shown here:</p>
 
-<a href="{% url 'motivation:thank-you' %}">Kun olet pyörittänyt tarpeeksi, paina tästä</a>
+<div>G</div>
+
+<div>0.35€</div>
+<p>Your earnings</p>
+
+{% if experiment_type == 'antisocial' or experiment_type == 'prosocial' %}
+    <div>0.15€</div>
+    <p>Red Cross earnings</p>
+{% endif %}
+
+<a href="{% url 'motivation:thank-you' %}">When you want to stop, press here</a>
