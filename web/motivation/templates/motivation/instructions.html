@@ -3,43 +3,46 @@
 <h1>{{ experiment_type }}</h1>
 
 <p>
-    Tehtävänäsi on pyörittää kahvaa.
-    Voit pyörittää kahvaa niin kauan kuin haluat (maksimissaan 15 minuuttia).
-    Pyörittämisnopeudella ei ole vaikutusta tulokseen,
-    joten ei ole mitään hyötyä pyörittää kahvaa erityisen nopeasti.
-    Voit lopettaa pyörittämisen koska vain itse haluat.
+    Singular letters will appear on the screen one by one.
+    Your task is simply to push the corresponding button on your keyboard.
+</p>
+
+<p>
+    You can do this as long as you want to (maximum 10 minutes).
+</p>
+
+<p>
+    You can stop anytime you want to.
 </p>
 
 {% if experiment_type == 'neutral' %}
     <p>
-        Kun pyörität kahvaa, sinulle kertyy rahaa.
-        Saat 1 sentin joka 4. sekunti.
-        Tuntipalkkasi on siis 9 € / tunti.
-        Kun olet valmis, tutkija maksaa sinulle kertyneen rahasumman käteisellä.
+        As long as you push the right keyboard buttons, you will earn some money.
+        You will get 1 cent for every correct letter.
+        Given that the letters arrive once every 4th second, your hourly rate will be approximately $9.
+        When you are ready, the gathered money will be paid to you on Mturk.
     </p>
 {% else %}
     <p>
-        Kun pyörität kahvaa, tapahtuu kaksi asiaa:
-        1) SINULLE KERTYY RAHAA
-        Saat 1 sentin joka 4. sekunti.
-        Tuntipalkkasi on siis 9 € / tunti.
-        Kun olet valmis, tutkija maksaa sinulle kertyneen rahasumman käteisellä.
+        As long as you push the right keyboard buttons, two things will happen:
+        1) You will earn some money.
+        You will get 1 cent for every correct letter.
+        Given that the letters arrive once every 4th second, your hourly rate will be approximately $9.
+        When you are ready, the gathered money will be paid to you on Mturk.
     </p>
-    {% if experiment_type == 'negative' %}
+    {% if experiment_type == 'antisocial' %}
         <p>
-            2) PUNAISELLE RISTILLE KERTYY VÄHEMMÄN RAHAA
-            Tutkija tekee kokeiden jälkeen lahjoituksen Punaiselle Ristille.
-            Mutta niin kauan kuin pyörität kahvaa,
-            Punainen risti saa 1 sentin vähemmän rahaa joka 16. sekunti.
-            Eli kahvan pyöritys vähentää Punaiselle Ristille tehtävää lahjoitusta.
+            2) Red Cross will earn less money.
+            After the experiments, the researchers will make a donation to Red Cross.
+            For every fourth keystroke you do, the sum donated to Red Cross will diminish by 1 cent.
         </p>
     {% elif experiment_type == 'positive' %}
         <p>
-            2) PUNAISELLE RISTILLE KERTYY RAHAA
-            Punainen Risti saa 1 sentin joka 16. sekunti.
-            Kokeiden jälkeen tutkija maksaa kertyneen rahasumman Punaiselle Ristille.
+            2) Red Cross will earn some money.
+            Red Cross will get 1 cent for every fourth keystroke.
+            After the experiments, the researchers will pay the gathered sum to Red Cross.
         </p>
     {% endif %}
 {% endif %}
 
-<a href="{% url 'motivation:experiment' %}">Aloita koe</a>
+<a href="{% url 'motivation:experiment' %}">Start the experiment</a>

@@ -56,12 +56,14 @@ def instructions(request):
         questionnaire.experiment_type = random_experiment
         questionnaire.save()
 
+        request.session['experiment_type'] = random_experiment
+
         if random_experiment == -1:
             return 'negative'
         elif random_experiment == 0:
-            return 'neutral'
+            return 'prosocial'
         else:
-            return 'positive'
+            return 'antisocial'
 
     # if request.method == 'POST':
     #     form = NameForm(request.POST)
@@ -111,9 +113,10 @@ def instructions(request):
 
 # class ExperimentView(generic.TemplateView):
 def experiment(request):
-    mturk = request.session.get('mturk')
+    experiment_type = request.session.get('experiment_type')
+    print(experiment_type)
     # template_name = 'motivation/experiment.html'
-    return render(request, 'motivation/experiment.html', {'mturk': mturk})
+    return render(request, 'motivation/experiment.html')
 
 
 # class QuestionnaireView(generic.TemplateView):
