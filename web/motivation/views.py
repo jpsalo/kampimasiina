@@ -1,7 +1,6 @@
 from random import randint
 
 from django.shortcuts import render
-from django.views import generic
 
 from .models import Questionnaire
 
@@ -62,15 +61,24 @@ def experiment(request):
         else:
             return 'prosocial'
 
+    django_to_javascript = 'from django'
+
     return render(
             request,
             'motivation/experiment.html',
-            {'experiment_type': get_experiment_text(experiment_type)}
+            {
+                'experiment_type': get_experiment_text(experiment_type),
+                'djangoToJavascript': django_to_javascript
+                }
             )
 
 
-class ThankYouView(generic.TemplateView):
-    template_name = 'motivation/thank_you.html'
+def thank_you(request):
+    if request.method == 'POST':
+        post_text = request.POST.get('the_post')
+        print(post_text)
+
+    return render(request, 'motivation/thank_you.html')
 
 
 class QuestionnaireForm(forms.Form):

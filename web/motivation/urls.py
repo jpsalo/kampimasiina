@@ -21,7 +21,7 @@ urlpatterns = [
         ),
     url(
         r'^thank-you$',
-        views.ThankYouView.as_view(),
+        views.thank_you,
         name='thank-you'
         ),
 ]
