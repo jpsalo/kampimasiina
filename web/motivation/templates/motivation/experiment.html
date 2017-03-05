@@ -2,13 +2,13 @@
 
 <p>Push the corresponding button to the letter shown here:</p>
 
-<div>G</div>
+<div id="activeLetter"></div>
 
-<div>0.35€</div>
+<div id="earnings"></div>
 <p>Your earnings</p>
 
 {% if experiment_type == 'antisocial' or experiment_type == 'prosocial' %}
-    <div>0.15€</div>
+    <div id="emotionMeasure"></div>
     <p>Red Cross earnings</p>
 {% endif %}
 
@@ -16,45 +16,106 @@
 
 <p>{{ djangoToJavascript }}</p>
 
-<button onclick="create_post()">Click me</button>
+<button onclick="createPost()">When you want to stop, press here</button>
 
-<!-- this div will contain time -->
-<div id="time-container"></div>
-
-<!-- include required js libraries -->
-
-<!-- now the actual js code to show time -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script>
     // http://stackoverflow.com/a/14372793
     // https://realpython.com/blog/python/django-and-ajax-form-submissions/
-    function updateTime(){
-      var timcon = document.getElementById('time-container');
-      timcon.innerHTML = Date.now();
-        // $('.time-container').html(moment().format('h:mm:ss'));
+    var activeLetterElement = getActiveLetterElement();
+    var earningsElement = getEarningsElement();
+    var emotionMeasureElement = getEmotionMeasureElement();
+    var EXPERIMENT_MAX_LENGTH_MILLISECONDS = 1000 * 60 * 10;
+    var UPDATE_LETTER_INTERVAL_MILLISECONDS = 4000;
+
+    var counter = 0;
+
+    var letters = [
+      { key: 'G', code: 71, },
+      { key: 'H', code: 72, },
+      { key: 'J', code: 74, },
+      { key: 'K', code: 75, },
+    ]
+
+    function getActiveLetterElement() {
+      return document.getElementById('activeLetter');
+    }
+
+    function getEarningsElement() {
+      return document.getElementById('earnings');
+    }
+
+    function getEmotionMeasureElement() {
+      return document.getElementById('emotionMeasure');
+    }
+
+    var activeLetterIndex;
+    function updateLetter() {
+      activeLetterIndex = Math.floor(Math.random() * letters.length);
+      if (!activeLetterElement) {
+        activeLetterElement = getActiveLetterElement();
+      }
+      activeLetterElement.innerHTML = letters[activeLetterIndex].key;
     };
 
-    updateTime();
+    updateLetter();
 
-    var fromDjango = "{{ djangoToJavascript }}";
-    console.log(fromDjango);
+    var fromDjango = '{{ djangoToJavascript }}';
+    var experimentType = '{{ experiment_type }}';
 
-    setInterval(function(){
-        updateTime();
-    }, 1000);
+    var updateLetterInterval = setInterval(updateLetter, UPDATE_LETTER_INTERVAL_MILLISECONDS);
+
+    var cancelUpdateLetterInterval = setTimeout(createPost, EXPERIMENT_MAX_LENGTH_MILLISECONDS);
+
+    document.addEventListener('keyup', onKeyUp, false);
+
+    function onKeyUp(event) {
+      if (event.keyCode === letters[activeLetterIndex].code) updateEarnings();
+    }
+
+    function updateEarnings() {
+      counter += 1;
+      updateEarningsCounter(counter);
+      updateEmotionMeasureCounter(counter);
+    }
+
+    function updateEarningsCounter(counter) {
+      if (!earningsElement) {
+        earningsElement = getEarningsElement();
+      }
+      var earnings = (counter / 100).toString().replace('.', ',') + ' €';
+      earningsElement.innerHTML = earnings;
+    }
+
+    function updateEmotionMeasureCounter(counter) {
+      if (!emotionMeasureElement) {
+        emotionMeasureElement = getEmotionMeasureElement();
+      }
+      if (experimentType === 'antisocial' || experimentType === 'prosocial') {
+        var earnings = ((counter / 100) / 4).toString().replace('.', ',') + ' €';
+        if (experimentType === 'antisocial') {
+            earnings = '-' + earnings;
+        }
+        emotionMeasureElement.innerHTML = earnings;
+      }
+    }
 
     // AJAX for posting
-    function create_post() {
-        $.ajax({
-            url : "thank-you", // the endpoint
-            type : "POST", // http method
-            data : {
-                the_post : fromDjango,
-                csrfmiddlewaretoken: '{{ csrf_token }}'
-            }, // data sent with the post request
-            success : function(json) {
-                window.location.href = 'thank-you';
-			},
-        });
+    function createPost() {
+      document.removeEventListener('keyup', onKeyUp, false);
+      clearInterval(updateLetterInterval);
+      if (cancelUpdateLetterInterval) clearTimeout(cancelUpdateLetterInterval);
+
+      $.ajax({
+        url : 'thank-you', // the endpoint
+        type : 'POST', // http method
+        data : {
+          the_post : fromDjango,    // TODO: Post correct data
+          csrfmiddlewaretoken: '{{ csrf_token }}'
+        }, // data sent with the post request
+        success : function(json) {
+          window.location.href = 'thank-you';
+        },
+      });
     };
 </script>
