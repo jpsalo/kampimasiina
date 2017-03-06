@@ -12,10 +12,6 @@
     <p>Red Cross earnings</p>
 {% endif %}
 
-<a href="{% url 'motivation:thank-you' %}">When you want to stop, press here</a>
-
-<p>{{ djangoToJavascript }}</p>
-
 <button onclick="createPost()">When you want to stop, press here</button>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
@@ -27,7 +23,8 @@
     var emotionMeasureElement = getEmotionMeasureElement();
     var EXPERIMENT_MAX_LENGTH_MILLISECONDS = 1000 * 60 * 10;
     var UPDATE_LETTER_INTERVAL_MILLISECONDS = 4000;
-
+    var experimentType = '{{ experiment_type }}';
+    var activeLetterIndex;
     var counter = 0;
 
     var letters = [
@@ -35,7 +32,13 @@
       { key: 'H', code: 72, },
       { key: 'J', code: 74, },
       { key: 'K', code: 75, },
-    ]
+    ];
+
+    updateLetter();
+    document.addEventListener('keyup', onKeyUp, false);
+
+    var updateLetterInterval = setInterval(updateLetter, UPDATE_LETTER_INTERVAL_MILLISECONDS);
+    var cancelUpdateLetterInterval = setTimeout(createPost, EXPERIMENT_MAX_LENGTH_MILLISECONDS);
 
     function getActiveLetterElement() {
       return document.getElementById('activeLetter');
@@ -49,7 +52,6 @@
       return document.getElementById('emotionMeasure');
     }
 
-    var activeLetterIndex;
     function updateLetter() {
       activeLetterIndex = Math.floor(Math.random() * letters.length);
       if (!activeLetterElement) {
@@ -57,17 +59,6 @@
       }
       activeLetterElement.innerHTML = letters[activeLetterIndex].key;
     };
-
-    updateLetter();
-
-    var fromDjango = '{{ djangoToJavascript }}';
-    var experimentType = '{{ experiment_type }}';
-
-    var updateLetterInterval = setInterval(updateLetter, UPDATE_LETTER_INTERVAL_MILLISECONDS);
-
-    var cancelUpdateLetterInterval = setTimeout(createPost, EXPERIMENT_MAX_LENGTH_MILLISECONDS);
-
-    document.addEventListener('keyup', onKeyUp, false);
 
     function onKeyUp(event) {
       if (event.keyCode === letters[activeLetterIndex].code) updateEarnings();
@@ -115,7 +106,7 @@
         url : 'thank-you', // the endpoint
         type : 'POST', // http method
         data : {
-          the_post : fromDjango,    // TODO: Post correct data
+          earnings: counter,
           csrfmiddlewaretoken: '{{ csrf_token }}'
         }, // data sent with the post request
         success : function(json) {

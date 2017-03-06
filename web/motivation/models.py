@@ -32,3 +32,4 @@ class Questionnaire(models.Model):
 
     mturk = models.CharField(max_length=200)
     experiment_type = models.IntegerField(default=0)
+    earnings = models.IntegerField(default=0)

@@ -51,7 +51,6 @@ def instructions(request):
 
 def experiment(request):
     experiment_type = request.session.get('experiment_type')
-    print(experiment_type)
 
     def get_experiment_text(experiment_type):
         if experiment_type == -1:
@@ -75,8 +74,12 @@ def experiment(request):
 
 def thank_you(request):
     if request.method == 'POST':
-        post_text = request.POST.get('the_post')
-        print(post_text)
+        earnings = request.POST.get('earnings')
+
+        questionnaire_id = request.session.get('id')
+        questionnaire = Questionnaire.objects.get(id=questionnaire_id)
+        questionnaire.earnings = earnings
+        questionnaire.save()
 
     return render(request, 'motivation/thank_you.html')
 
