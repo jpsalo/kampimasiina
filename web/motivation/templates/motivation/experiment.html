@@ -79,24 +79,29 @@
       updateEmotionMeasureCounter(counter);
     }
 
+    function formatCurrency(cents) {
+      return (cents / 100).toFixed(2).toString().replace('.', ',') + ' €';
+    }
+
     function updateEarningsCounter(counter) {
       if (!earningsElement) {
         earningsElement = getEarningsElement();
       }
-      var earnings = (counter / 100).toString().replace('.', ',') + ' €';
-      earningsElement.innerHTML = earnings;
+      earningsElement.innerHTML = formatCurrency(counter);
     }
 
     function updateEmotionMeasureCounter(counter) {
-      if (!emotionMeasureElement) {
-        emotionMeasureElement = getEmotionMeasureElement();
-      }
-      if (experimentType === 'antisocial' || experimentType === 'prosocial') {
-        var earnings = ((counter / 100) / 4).toString().replace('.', ',') + ' €';
-        if (experimentType === 'antisocial') {
-            earnings = '-' + earnings;
+      if (counter % 4 === 0) {
+        if (!emotionMeasureElement) {
+          emotionMeasureElement = getEmotionMeasureElement();
         }
-        emotionMeasureElement.innerHTML = earnings;
+        if (experimentType === 'antisocial' || experimentType === 'prosocial') {
+          var earnings = formatCurrency(Math.round(counter / 4));
+          if (experimentType === 'antisocial') {
+            earnings = '-' + earnings;
+          }
+          emotionMeasureElement.innerHTML = earnings;
+        }
       }
     }
 
