@@ -1,0 +1,2 @@
+web: gunicorn crank.wsgi:application --log-file -
+# http://stackoverflow.com/a/39461113/7010222
