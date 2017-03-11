@@ -35,6 +35,8 @@
     ];
 
     updateLetter();
+    updateEarningsCounter(counter);
+    updateEmotionMeasureCounter(counter);
     document.addEventListener('keyup', onKeyUp, false);
 
     var updateLetterInterval = setInterval(updateLetter, UPDATE_LETTER_INTERVAL_MILLISECONDS);
