@@ -90,7 +90,7 @@
         }
         if (experimentType === 'antisocial' || experimentType === 'prosocial') {
           var earnings = formatCurrency(Math.round(counter / 4));
-          if (experimentType === 'antisocial') {
+          if (experimentType === 'antisocial' && counter) {
             earnings = '-' + earnings;
           }
           emotionMeasureElement.innerHTML = earnings;
