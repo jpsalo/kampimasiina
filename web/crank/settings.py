@@ -27,7 +27,7 @@ SECRET_KEY = '_-m!l^enzj_x6n#h4-=3wzgc9m8a-mz28+rx^sfhgei^$n*dkp'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['nameless-tor-75105.herokuapp.com']
+ALLOWED_HOSTS = ['kampi.herokuapp.com']
 
 
 # Application definition
