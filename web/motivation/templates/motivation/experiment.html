@@ -1,18 +1,32 @@
 {# #}
 
-<p>Push the corresponding button to the letter shown here:</p>
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'motivation/style.css' %}" />
 
-<div id="activeLetter"></div>
+<div class="page-wrap">
+    <p>Push the corresponding button to the letter shown here:</p>
 
-<div id="earnings"></div>
-<p>Your earnings</p>
+    <div id="activeLetter" class="box font-size__extra-large center"></div>
 
-{% if experiment_type == 'antisocial' or experiment_type == 'prosocial' %}
-    <div id="emotionMeasure"></div>
-    <p>Red Cross earnings</p>
-{% endif %}
+    {% if experiment_type == 'antisocial' or experiment_type == 'prosocial' %}
+        <div class="left">
+            <div id="earnings" class="box font-size__large center"></div>
+            <p>Your earnings</p>
+        </div>
 
-<button onclick="createPost()">When you want to stop, press here</button>
+        <div class="right">
+            <div id="emotionMeasure" class="box font-size__large center"></div>
+            <p>Red Cross earnings</p>
+        </div>
+    {% else %}
+        <div id="earnings" class="box font-size__large center"></div>
+        <p>Your earnings</p>
+    {% endif %}
+</div>
+
+<div class="site-footer">
+    <button class="button" onclick="createPost()">When you want to stop, press here</button>
+</div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script>

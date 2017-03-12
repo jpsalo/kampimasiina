@@ -1,48 +1,66 @@
 {# #}
 
-<h1>{{ experiment_type }}</h1>
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'motivation/style.css' %}" />
 
-<p>
-    Singular letters will appear on the screen one by one.
-    Your task is simply to push the corresponding button on your keyboard.
-</p>
+<div class="page-wrap">
+        <h1>{{ experiment_type }}</h1>
 
-<p>
-    You can do this as long as you want to (maximum 10 minutes).
-</p>
-
-<p>
-    You can stop anytime you want to.
-</p>
-
-{% if experiment_type == 'neutral' %}
-    <p>
-        As long as you push the right keyboard buttons, you will earn some money.
-        You will get 1 cent for every correct letter.
-        Given that the letters arrive once every 4th second, your hourly rate will be approximately $9.
-        When you are ready, the gathered money will be paid to you on Mturk.
-    </p>
-{% else %}
-    <p>
-        As long as you push the right keyboard buttons, two things will happen:
-        1) You will earn some money.
-        You will get 1 cent for every correct letter.
-        Given that the letters arrive once every 4th second, your hourly rate will be approximately $9.
-        When you are ready, the gathered money will be paid to you on Mturk.
-    </p>
-    {% if experiment_type == 'antisocial' %}
         <p>
-            2) Red Cross will earn less money.
-            After the experiments, the researchers will make a donation to Red Cross.
-            For every fourth keystroke you do, the sum donated to Red Cross will diminish by 1 cent.
+            Singular letters will appear on the screen one by one.
+            Your task is simply to push the corresponding button on your keyboard.
         </p>
-    {% elif experiment_type == 'positive' %}
-        <p>
-            2) Red Cross will earn some money.
-            Red Cross will get 1 cent for every fourth keystroke.
-            After the experiments, the researchers will pay the gathered sum to Red Cross.
-        </p>
-    {% endif %}
-{% endif %}
 
-<a href="{% url 'motivation:experiment' %}">Start the experiment</a>
+        <br>
+
+        <p>
+            You can do this as long as you want to (maximum 10 minutes).
+        </p>
+
+        <br>
+
+        <p>
+            <span class="text-underline">You can stop anytime you want to</span>.
+        </p>
+
+        <br>
+
+        {% if experiment_type == 'neutral' %}
+            <p>
+                As long as you push the right keyboard buttons,
+                <span class="text-underline">you will earn some money</span>.
+                You will get 1 cent for every correct letter.
+                Given that the letters arrive once every 4th second, your hourly rate will be approximately $9.
+                When you are ready, the gathered money will be paid to you on Mturk.
+            </p>
+        {% else %}
+            <p>
+                As long as you push the right keyboard buttons, two things will happen:
+                1) <span class="text-underline">You will earn some money</span>.
+                You will get 1 cent for every correct letter.
+                Given that the letters arrive once every 4th second, your hourly rate will be approximately $9.
+                When you are ready, the gathered money will be paid to you on Mturk.
+            </p>
+
+            <br>
+            {% if experiment_type == 'antisocial' %}
+                <p>
+                    2) <span class="text-underline">Red Cross will earn <span class="text-bold">less</span> money</span>.
+                    After the experiments, the researchers will make a donation to Red Cross.
+                    For every fourth keystroke you do, the sum donated to Red Cross will diminish by 1 cent.
+                </p>
+            {% elif experiment_type == 'prosocial' %}
+                <p>
+                    2) <span class="text-underline">Red Cross will earn some money</span>.
+                    Red Cross will get 1 cent for every fourth keystroke.
+                    After the experiments, the researchers will pay the gathered sum to Red Cross.
+                </p>
+            {% endif %}
+        {% endif %}
+
+</div>
+
+<div class="site-footer">
+    <a class="button" href="{% url 'motivation:experiment' %}">Start the experiment</a>
+</div>
+

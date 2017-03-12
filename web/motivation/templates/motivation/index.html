@@ -1,15 +1,17 @@
 {% load static %}
-
 <link rel="stylesheet" type="text/css" href="{% static 'motivation/style.css' %}" />
-
-<p>Thank you for wanting to participate in this experience!</p>
-
-<p>Copy-paste your Mturk identifier here. It allows us to pay you the correct amount in the end:</p>
 
 {# http://stackoverflow.com/a/25029149 #}
 <form action="{% url 'motivation:instructions' %}" method="post">
-  {% csrf_token %}
-  <input id="mturk" type="text" name="mturk" value="{{ mturk }}">
-  <input type="submit" value="Continue" />
+    {% csrf_token %}
+    <div class="page-wrap">
+        <p>Thank you for wanting to participate in this experience!</p>
+        <br>
+        <p>Copy-paste your Mturk identifier here. It allows us to pay you the correct amount in the end:</p>
+        <input id="mturk" type="text" name="mturk" class="box font-size__large" value="{{ mturk }}">
+    </div>
+    <div class="site-footer">
+        <input type="submit" value="Continue" class="button"/>
+    </div>
 </form>
 
