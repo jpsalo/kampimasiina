@@ -9,8 +9,14 @@ from django import forms
 
 def index(request):
     form = QuestionnaireForm()
+    worker_id = request.GET.get('workerId')
 
-    return render(request, 'motivation/index.html', {'form': form})
+    context = {'form': form}
+
+    if worker_id is not None:
+        context['mturk'] = worker_id
+
+    return render(request, 'motivation/index.html', context)
 
 
 # http://stackoverflow.com/a/14729363
