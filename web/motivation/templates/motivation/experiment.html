@@ -40,6 +40,7 @@
     var experimentType = '{{ experiment_type }}';
     var activeLetterIndex;
     var counter = 0;
+    var earningsUpdated;
 
     var letters = [
       { key: 'G', code: 71, },
@@ -69,6 +70,7 @@
     }
 
     function updateLetter() {
+      earningsUpdated = false;
       activeLetterIndex = Math.floor(Math.random() * letters.length);
       if (!activeLetterElement) {
         activeLetterElement = getActiveLetterElement();
@@ -81,9 +83,12 @@
     }
 
     function updateEarnings() {
-      counter += 1;
-      updateEarningsCounter(counter);
-      updateEmotionMeasureCounter(counter);
+      if (!earningsUpdated) {
+        earningsUpdated = true;
+        counter += 1;
+        updateEarningsCounter(counter);
+        updateEmotionMeasureCounter(counter);
+      }
     }
 
     function formatCurrency(cents) {
