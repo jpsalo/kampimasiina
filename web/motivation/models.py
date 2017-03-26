@@ -30,6 +30,6 @@ class Questionnaire(models.Model):
     def __str__(self):
         return self.mturk
 
-    mturk = models.CharField(max_length=200)
+    mturk = models.CharField(unique=True, max_length=200)
     experiment_type = models.IntegerField(default=0)
     earnings = models.IntegerField(default=0)

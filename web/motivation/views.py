@@ -1,6 +1,6 @@
 from random import randint
 
-from django.shortcuts import render
+from django.shortcuts import redirect, render, reverse
 
 from .models import Questionnaire
 
@@ -43,10 +43,17 @@ def instructions(request):
         form = QuestionnaireForm(request.POST)
         if form.is_valid():
             mturk = form.cleaned_data['mturk']
-            questionnaire = Questionnaire(mturk=mturk)
-            questionnaire.save()
-            request.session['mturk'] = mturk
-            request.session['id'] = questionnaire.id
+
+            existing_questionnaire = Questionnaire.objects.filter(mturk=mturk)
+            if existing_questionnaire.exists():
+                return redirect(
+                        reverse('motivation:index') + '?workerId=' + mturk
+                        )
+            else:
+                questionnaire = Questionnaire(mturk=mturk)
+                questionnaire.save()
+                request.session['mturk'] = mturk
+                request.session['id'] = questionnaire.id
 
     return render(
             request,
