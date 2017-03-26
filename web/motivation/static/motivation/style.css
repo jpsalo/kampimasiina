@@ -57,6 +57,16 @@ body {
   margin-bottom: 40px;
 }
 
+.border-right-active {
+  border-right-color: green;
+}
+.border-bottom-active {
+  border-bottom-color: green;
+}
+.border-left-active {
+  border-left-color: green;
+}
+
 .button {
   background-color: DodgerBlue;
   color: white;

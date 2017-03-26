@@ -39,6 +39,8 @@
     var emotionMeasureElement = getEmotionMeasureElement();
     var EXPERIMENT_MAX_LENGTH_MILLISECONDS = 1000 * 60 * 10;
     var UPDATE_LETTER_INTERVAL_MILLISECONDS = 4000;
+    var PROGRESS_INDICATOR_INTERVAL_MILLISECONDS = 1000;
+    var progressTimeElapsed = 0;
     var experimentType = '{{ experiment_type }}';
     var activeLetterIndex;
     var counter = 0;
@@ -53,11 +55,13 @@
     ];
 
     updateLetter();
+    updateProgressIndicator();
     updateEarningsCounter(counter);
     updateEmotionMeasureCounter(counter);
     document.addEventListener('keyup', onKeyUp, false);
 
     var updateLetterInterval = setInterval(updateLetter, UPDATE_LETTER_INTERVAL_MILLISECONDS);
+    var progressInterval = setInterval(updateProgressIndicator, PROGRESS_INDICATOR_INTERVAL_MILLISECONDS);
     var cancelUpdateLetterInterval = setTimeout(createPost, EXPERIMENT_MAX_LENGTH_MILLISECONDS);
 
     function getActiveLetterElement() {
@@ -83,7 +87,38 @@
       return activeLetterIndex;
     }
 
+    function updateProgressIndicator() {
+      progressTimeElapsed += 1;
+      if (!activeLetterElement) {
+        activeLetterElement = getActiveLetterElement();
+      }
+      if (progressTimeElapsed === 1) {
+        activeLetterElement.classList.remove('border-left-active');
+      } else if (progressTimeElapsed === 2) {
+        activeLetterElement.classList.add('border-right-active');
+      } else if (progressTimeElapsed === 3) {
+        activeLetterElement.classList.remove('border-right-active');
+        activeLetterElement.classList.add('border-bottom-active');
+      } else if (progressTimeElapsed === 4) {
+        activeLetterElement.classList.remove('border-bottom-active');
+        activeLetterElement.classList.add('border-left-active');
+      }
+    }
+
+    function resetProgressIndicator() {
+      progressTimeElapsed = 0;
+      if (!activeLetterElement) {
+        activeLetterElement = getActiveLetterElement();
+      }
+      activeLetterElement.classList.remove(
+              'border-right-active',
+              'border-bottom-active',
+              'border-left-active'
+              );
+    }
+
     function updateLetter() {
+      resetProgressIndicator();
       earningsUpdated = false;
       activeLetterIndex = getActiveLetterIndex();
       if (!activeLetterElement) {
@@ -135,6 +170,7 @@
     function createPost() {
       document.removeEventListener('keyup', onKeyUp, false);
       clearInterval(updateLetterInterval);
+      clearInterval(progressInterval);
       if (cancelUpdateLetterInterval) clearTimeout(cancelUpdateLetterInterval);
 
       $.ajax({
