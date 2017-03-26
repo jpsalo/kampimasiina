@@ -70,6 +70,14 @@ body {
   border-radius: 15px;
 }
 
+.button-text {
+  line-height: initial;
+  display: table-cell;
+  vertical-align: middle;
+  height: inherit;
+  width: inherit;
+}
+
 .text-underline {
   text-decoration: underline;
 }
