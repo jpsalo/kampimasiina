@@ -94,7 +94,11 @@ def thank_you(request):
         questionnaire.earnings = earnings
         questionnaire.save()
 
-    return render(request, 'motivation/thank_you.html')
+    questionnaire_id = request.session.get('id')
+    questionnaire = Questionnaire.objects.get(id=questionnaire_id)
+    mturk = questionnaire.mturk
+
+    return render(request, 'motivation/thank_you.html', {'mturk': mturk})
 
 
 class QuestionnaireForm(forms.Form):
