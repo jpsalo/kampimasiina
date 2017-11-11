@@ -29,7 +29,7 @@ SECRET_KEY = '_-m!l^enzj_x6n#h4-=3wzgc9m8a-mz28+rx^sfhgei^$n*dkp'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['localhost', 'kampi.herokuapp.com']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'kampi.herokuapp.com']
 
 
 # Application definition
@@ -130,3 +130,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Simplified static file serving with WhiteNoise adding cachable files and gzip support
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+
+# https://stackoverflow.com/a/34891731/7010222
+if os.environ.get('DEVELOPMENT') is not None:
+    DEBUG = True
