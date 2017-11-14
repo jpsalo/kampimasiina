@@ -24,12 +24,6 @@
     {% endif %}
 </div>
 
-<div class="site-footer">
-  <button class="button" onclick="createPost()">
-    <span class="button-text">When you want to stop,<br><span class="text-bold">press here</span>.</span>
-  </button>
-</div>
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script>
     // http://stackoverflow.com/a/14372793
@@ -37,7 +31,7 @@
     var activeLetterElement = getActiveLetterElement();
     var earningsElement = getEarningsElement();
     var emotionMeasureElement = getEmotionMeasureElement();
-    var EXPERIMENT_MAX_LENGTH_MILLISECONDS = 1000 * 60 * 10;
+    var EXPERIMENT_MAX_LENGTH_MILLISECONDS = 1000 * 60 * 4;
     var UPDATE_LETTER_INTERVAL_MILLISECONDS = 4000;
     var PROGRESS_INDICATOR_INTERVAL_MILLISECONDS = 1000;
     var progressTimeElapsed = 0;
