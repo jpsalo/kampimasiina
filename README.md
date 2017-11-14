@@ -8,5 +8,6 @@ Tämä on tutkimushankketta varten rakennetut koodit
 `python -m pip install <PACKAGE>`
 `python -m pip freeze > requirements.txt`
 `gunicorn crank.wsgi:application --env DEVELOPMENT=true`
+`deactivate`
 
 `git subtree push --prefix web heroku master`
