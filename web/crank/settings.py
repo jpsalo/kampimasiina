@@ -68,6 +68,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django_settings_export.settings_export',
             ],
         },
     },
@@ -134,3 +135,7 @@ STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 # https://stackoverflow.com/a/34891731/7010222
 if os.environ.get('DEVELOPMENT') is not None:
     DEBUG = True
+
+SETTINGS_EXPORT = [
+    'DEBUG',
+]
