@@ -3,7 +3,8 @@ Kampi tutkimusprojektin koodit
 
 Tämä on tutkimushankketta varten rakennetut koodit
 
-`workon env1`
+`mkvirtualenv kampimasiina`
+`workon kampimasiina`
 
 `cd web`
 
