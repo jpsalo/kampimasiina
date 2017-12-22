@@ -1,0 +1,5 @@
+{
+  "devDependencies": {
+    "json2csv": "^3.11.5"
+  }
+}
