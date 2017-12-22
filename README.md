@@ -14,7 +14,7 @@ Shut down virtual environment:
 `deactivate`
 
 ### Install requirements
-`cd web`
+`cd ./web`
 
 `python -m pip install -r requirements.txt`
 
@@ -61,4 +61,8 @@ https://nodejs.org/en/
 https://stedolan.github.io/jq/
 
 ### Save questionnaires into CSV file
+`cd ./web`
+
 `sh questionnaires_csv.sh`
+
+This will create a questionnaires.csv file into the `./web` directory
