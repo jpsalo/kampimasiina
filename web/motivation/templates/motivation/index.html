@@ -1,6 +1,8 @@
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'motivation/style.css' %}" />
 
+<title>Kampi</title>
+
 {# http://stackoverflow.com/a/25029149 #}
 <form action="{% url 'motivation:instructions' %}" method="post">
   {% csrf_token %}
