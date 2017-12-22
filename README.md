@@ -30,4 +30,7 @@ or
 
 # Install Heroku
 
+# Add Heroku remote
+`heroku git:remote -a kampi`
+
 `git subtree push --prefix web heroku master`
