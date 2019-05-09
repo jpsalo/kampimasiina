@@ -63,6 +63,6 @@ https://stedolan.github.io/jq/
 ### Save questionnaires into CSV file
 `cd ./web`
 
-`sh questionnaires_csv.sh`
+`sh ./questionnaires_csv.sh`
 
 This will create a questionnaires.csv file into the `./web` directory
